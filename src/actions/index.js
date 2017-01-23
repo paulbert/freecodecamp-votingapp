@@ -1,17 +1,9 @@
-import $ from 'jquery'
+
 import fetch from 'isomorphic-fetch'
 
 export const addOption = () => {
 	return {
 		type: 'ADD_OPTION'
-	}
-};
-
-// For new poll action send undefined poll parameter
-export const editPoll = (poll) => {
-	return {
-		type: 'EDIT_POLL',
-		poll
 	}
 };
 
@@ -65,11 +57,12 @@ export function getPolls() {
 			}
 		})
 		.then(response => {
-			dispatch(receivePolls(response.json());
+			dispatch(receivePolls(response.json()));
 		});
 	}
 };
 
+// For new poll action send undefined pollLink parameter
 export function editPoll(pollLink,poll) {
 	
 	return function(dispatch) {

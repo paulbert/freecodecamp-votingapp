@@ -10,6 +10,7 @@ const PollBody = (poll,onVoteClick) => (
 			<button className="btn btn-default" onClick={onVoteClick(pollId,vote)}>{opt}</button>
 			))
 		}
+		</div>
 	</section>
 
 );

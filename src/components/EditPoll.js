@@ -2,7 +2,7 @@ import React from 'react'
 
 const EditPoll = (poll,onTextChange,onPollSubmit) => (
 	
-	<form onSubmit={(e) => { e.preventDefault(); return onPollSubmit(poll.link || 'new', poll);}}>
+	<form onSubmit={(e) => { e.preventDefault(); return onPollSubmit(poll.link, poll);}}>
 		<div className="form-group">
 			<label className="control-label">Poll Title:</label>
 			<input type="text" className="form-control" defaultValue={poll.title} onChange={(e) => onTextChange(e.target.value,'title')} />

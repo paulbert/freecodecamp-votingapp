@@ -7,10 +7,10 @@ const PollList = (polls,onPollEditClick) => (
 		<div className="btn-group-vertical">
 			{polls.map((poll) => {
 				(
-					<Link className="btn btn-default" to={'/poll/' + poll.id}">{poll.title}</Link>
+					<Link className="btn btn-default" to={'/poll/' + poll.id}>{poll.title}</Link>
 				);
 			})}
-		</main>
+		</div>
 	</section>
 
 );
