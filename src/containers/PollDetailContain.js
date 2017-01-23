@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import PollDetail from '../components/PollDetail'
-import { savePredictions } from '../actions'
+import { vote } from '../actions'
 
 const mapStateToProps = (state,ownProps) => {
 	return {

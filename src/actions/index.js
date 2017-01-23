@@ -7,6 +7,13 @@ export const addOption = () => {
 	}
 };
 
+export const editPoll = () => {
+	return {
+		type: 'EDIT_POLL',
+		poll
+	}
+};
+
 export const changeText = (prop,text,index) => {
 	return {
 		type:'CHANGE_TEXT',
@@ -63,7 +70,7 @@ export function getPolls() {
 };
 
 // For new poll action send undefined pollLink parameter
-export function editPoll(pollLink,poll) {
+export function savePoll(pollLink,poll) {
 	
 	return function(dispatch) {
 		

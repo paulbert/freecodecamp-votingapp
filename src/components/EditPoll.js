@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EditPoll = ({poll,onTextChange,onPollSubmit}) => (
+const EditPoll = ({poll,onTextChange,onPollSubmit,onAddOptClick}) => (
 	
 	<form onSubmit={(e) => { e.preventDefault(); return onPollSubmit(poll.link, poll);}}>
 		<div className="form-group">
@@ -19,6 +19,7 @@ const EditPoll = ({poll,onTextChange,onPollSubmit}) => (
 				)
 			}
 		</div>
+		<button type="button" className="btn btn-default" onClick={onAddOptClick()}>Add Option</button>
 		<button type="submit" className="btn btn-default">Login</button>
 	</form>
 

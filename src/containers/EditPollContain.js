@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import PollList from '../components/PollList'
-import { savePredictions } from '../actions'
+import { savePoll } from '../actions'
+import { changeText } from '../actions'
 
 const mapStateToProps = (state) => {
 	return {
@@ -14,7 +15,10 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeText(prop,text,index));
 		},
 		onPollSubmit: (pollLink,poll) => {
-			dispatch(editPoll(pollLink,poll));
+			dispatch(savePoll(pollLink,poll));
+		},
+		onAddOptClick: () => {
+			dispatch(addOption());
 		}
 	}
 };

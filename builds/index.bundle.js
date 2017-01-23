@@ -24506,7 +24506,7 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		return {
 			onPollEditClick: function onPollEditClick(poll) {
-				dispatch(editPoll(pollId, vote)).then(function () {
+				dispatch((0, _actions.editPoll)(poll)).then(function () {
 					dispatch(push('/editPoll'));
 				});
 			}
@@ -29725,9 +29725,9 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.changeText = exports.addOption = undefined;
+	exports.changeText = exports.editPoll = exports.addOption = undefined;
 	exports.getPolls = getPolls;
-	exports.editPoll = editPoll;
+	exports.savePoll = savePoll;
 	exports.vote = vote;
 
 	var _isomorphicFetch = __webpack_require__(299);
@@ -29739,6 +29739,13 @@
 	var addOption = exports.addOption = function addOption() {
 		return {
 			type: 'ADD_OPTION'
+		};
+	};
+
+	var editPoll = exports.editPoll = function editPoll() {
+		return {
+			type: 'EDIT_POLL',
+			poll: poll
 		};
 	};
 
@@ -29797,7 +29804,7 @@
 	};
 
 	// For new poll action send undefined pollLink parameter
-	function editPoll(pollLink, poll) {
+	function savePoll(pollLink, poll) {
 
 		return function (dispatch) {
 
@@ -30010,10 +30017,13 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		return {
 			onTextChange: function onTextChange(prop, text, index) {
-				dispatch(changeText(prop, text, index));
+				dispatch((0, _actions.changeText)(prop, text, index));
 			},
 			onPollSubmit: function onPollSubmit(pollLink, poll) {
-				dispatch(editPoll(pollLink, poll));
+				dispatch((0, _actions.savePoll)(pollLink, poll));
+			},
+			onAddOptClick: function onAddOptClick() {
+				dispatch(addOption());
 			}
 		};
 	};

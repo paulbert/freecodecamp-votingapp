@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import PollList from '../components/PollList'
-import { savePredictions } from '../actions'
+import { editPoll } from '../actions'
 
 const mapStateToProps = (state) => {
 	return {
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onPollEditClick: (poll) => {
-			dispatch(editPoll(pollId,vote)).then(() => {
+			dispatch(editPoll(poll)).then(() => {
 				dispatch(push('/editPoll'));
 			});
 		}
