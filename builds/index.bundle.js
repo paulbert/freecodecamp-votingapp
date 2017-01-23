@@ -24424,18 +24424,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _HeaderContain = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../containers/HeaderContain\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
-	var _HeaderContain2 = _interopRequireDefault(_HeaderContain);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//import HeaderContain from '../containers/HeaderContain'
 
 	var App = function App(_ref) {
 		var children = _ref.children;
 		return _react2.default.createElement(
 			'div',
 			null,
-			_react2.default.createElement(_HeaderContain2.default, null),
+			'//',
+			_react2.default.createElement(HeaderContain, null),
 			children
 		);
 	};
