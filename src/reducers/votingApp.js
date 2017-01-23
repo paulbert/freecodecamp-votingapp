@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 
 const defaultPoll = { title:'', desc:'', options: ['','']};
 
-const polls = (state = []) => {
+const polls = (state = [],action) => {
 	switch(action.type) {
 		case 'RECEIVE_POLLS':
 			return action.polls;
@@ -12,7 +12,7 @@ const polls = (state = []) => {
 	}
 };
 
-const editPoll = (state = defaultPoll) => {
+const editPoll = (state = defaultPoll,action) => {
 	switch(action.type) {
 		case 'ADD_OPTION':
 			return Object.assign({},state,{options:[].concat(state.options,[''])});
@@ -32,7 +32,7 @@ const editPoll = (state = defaultPoll) => {
 	}
 };
 
-const user = (state = 'test') => {
+const user = (state = 'test',action) => {
 	return state;
 };
 
