@@ -59,7 +59,7 @@ module.exports = exports = function(app,db) {
 		});	
 	});
 	
-	app.post('/editPoll', function(req,res) {
+	app.post('/savePoll', function(req,res) {
 		var poll = req.body.poll,
 			pollLink = req.body.pollLink || 'new',
 			user = req.cookies.user;

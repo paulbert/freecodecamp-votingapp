@@ -29814,7 +29814,7 @@
 
 			dispatch(sendPoll());
 
-			return (0, _isomorphicFetch2.default)('/editPoll', {
+			return (0, _isomorphicFetch2.default)('/savePoll', {
 				method: 'POST',
 				credentials: 'include',
 				headers: {

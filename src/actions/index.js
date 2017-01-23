@@ -76,7 +76,7 @@ export function savePoll(pollLink,poll) {
 		
 		dispatch(sendPoll());
 		
-		return fetch('/editPoll', {
+		return fetch('/savePoll', {
 			method: 'POST',
 			credentials:'include',
 			headers: {
