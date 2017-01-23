@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import PollList from '../components/PollList'
+import EditPoll from '../components/EditPoll'
 import { savePoll } from '../actions'
 import { changeText } from '../actions'
 
@@ -23,6 +23,6 @@ const mapDispatchToProps = (dispatch) => {
 	}
 };
 
-const PollListContain = connect(mapStateToProps,mapDispatchToProps)(PollList);
+const EditPollContain = connect(mapStateToProps,mapDispatchToProps)(EditPoll);
 
-export default PollListContain;
+export default EditPollContain;

@@ -16,7 +16,7 @@ const EditPoll = ({poll,onTextChange,onPollSubmit,onAddOptClick}) => (
 			{
 				poll.options.map((val,ind) => (
 					<input type="text" className="form-control" defaultValue={val} onChange={(e) => onTextChange(e.target.value,'options',ind)} />
-				)
+				))
 			}
 		</div>
 		<button type="button" className="btn btn-default" onClick={onAddOptClick()}>Add Option</button>

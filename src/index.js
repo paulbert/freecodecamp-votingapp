@@ -9,8 +9,10 @@ import EditPollBody from './components/EditPollBody'
 import PollBody from './components/PollBody'
 import thunkMiddleware from 'redux-thunk'
 import { Route,Router,browserHistory,IndexRoute } from 'react-router'
+import { routerMiddleware } from 'react-router-redux'
 
-let store = createStore(votingApp,applyMiddleware(thunkMiddleware));
+let rtMiddleware = routerMiddleware(browserHistory);
+let store = createStore(votingApp,applyMiddleware(thunkMiddleware,rtMiddleware));
 
 render(
 	<Provider store={store}>
