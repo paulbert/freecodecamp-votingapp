@@ -19,7 +19,7 @@ const EditPoll = ({poll,onTextChange,onPollSubmit,onAddOptClick}) => (
 				))
 			}
 		</div>
-		<button type="button" className="btn btn-default" onClick={onAddOptClick()}>Add Option</button>
+		<button type="button" className="btn btn-default" onClick={() => onAddOptClick()}>Add Option</button>
 		<button type="submit" className="btn btn-default">Login</button>
 	</form>
 

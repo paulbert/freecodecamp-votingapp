@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import EditPoll from '../components/EditPoll'
 import { savePoll } from '../actions'
 import { changeText } from '../actions'
+import { addOption } from '../actions'
 
 const mapStateToProps = (state) => {
 	return {

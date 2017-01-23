@@ -1,9 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 const PollList = ({polls,onPollEditClick}) => (
 	
 	<section>
-		<button className="btn btn-primary btn-lg" onClick={onPollEditClick()}>New Poll</button>
+		<Link className="btn btn-primary btn-lg" onClick={onPollEditClick()} to="/editPoll">New Poll</Link>
 		<div className="btn-group-vertical">
 			{polls.map((poll) => {
 				(

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import PollList from '../components/PollList'
 import { editPoll } from '../actions'
-import { push } from 'react-router-redux'
 
 const mapStateToProps = (state) => {
 	return {
@@ -13,7 +12,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onPollEditClick: (poll) => {
 			dispatch(editPoll(poll));
-			dispatch(push('/editPoll'));
 		}
 	}
 };

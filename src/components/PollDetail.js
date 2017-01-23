@@ -6,8 +6,8 @@ const PollBody = ({poll,onVoteClick}) => (
 		<h2>{poll.title}</h2>
 		<p>{poll.desc}</p>
 		<div className="btn-group-vertical">
-		{poll.options.map((opt) => (
-			<button className="btn btn-default" onClick={onVoteClick(pollId,vote)}>{opt}</button>
+		{poll.options.map((opt,ind) => (
+			<button key="ind" className="btn btn-default" onClick={() => onVoteClick(pollId,vote)}>{opt}</button>
 			))
 		}
 		</div>
