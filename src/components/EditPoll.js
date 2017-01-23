@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EditPoll = (poll,onTextChange,onPollSubmit) => (
+const EditPoll = ({poll,onTextChange,onPollSubmit}) => (
 	
 	<form onSubmit={(e) => { e.preventDefault(); return onPollSubmit(poll.link, poll);}}>
 		<div className="form-group">

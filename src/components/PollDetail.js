@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PollBody = (poll,onVoteClick) => (
+const PollBody = ({poll,onVoteClick}) => (
 	
 	<section>
 		<h2>{poll.title}</h2>

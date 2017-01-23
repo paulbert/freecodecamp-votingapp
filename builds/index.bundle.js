@@ -24436,8 +24436,6 @@
 		return _react2.default.createElement(
 			'div',
 			null,
-			'//',
-			_react2.default.createElement(HeaderContain, null),
 			children
 		);
 	};
@@ -29691,7 +29689,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PollList = function PollList(polls, onPollEditClick) {
+	var PollList = function PollList(_ref) {
+		var polls = _ref.polls,
+		    onPollEditClick = _ref.onPollEditClick;
 		return _react2.default.createElement(
 			"section",
 			null,
@@ -29949,7 +29949,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PollBody = function PollBody(poll, onVoteClick) {
+	var PollBody = function PollBody(_ref) {
+		var poll = _ref.poll,
+		    onVoteClick = _ref.onVoteClick;
 		return _react2.default.createElement(
 			"section",
 			null,
