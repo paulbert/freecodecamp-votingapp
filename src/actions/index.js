@@ -69,6 +69,18 @@ export function getPolls() {
 	}
 };
 
+const fetchPost = (url,reqBody) => {
+	return fetch(url, {
+		method: 'POST',
+		credentials:'include',
+		headers: {
+			'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(reqBody)
+	})
+};
+
 // For new poll action send undefined pollLink parameter
 export function savePoll(pollLink,poll) {
 	
@@ -76,15 +88,7 @@ export function savePoll(pollLink,poll) {
 		
 		dispatch(sendPoll());
 		
-		return fetch('/savePoll', {
-			method: 'POST',
-			credentials:'include',
-			headers: {
-				'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({pollLink:pollLink,poll:poll})
-		})
+		return fetchPost('/savePoll',{pollLink:pollLink,poll:poll})
 		.then(response => {
 			dispatch(pollUpdateResponse(response.json().message));
 		});
@@ -97,15 +101,7 @@ export function vote(pollId,vote) {
 		
 		dispatch(sendVote());
 		
-		return fetch('/vote', {
-			method: 'POST',
-			credentials:'include',
-			headers: {
-				'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({pollId:pollId,vote:vote})
-		})
+		return fetchPost('/vote',{pollId:pollId,vote:vote})
 		.then(response => {
 			if(response.json().message === 'Vote submitted') {
 				getPolls();

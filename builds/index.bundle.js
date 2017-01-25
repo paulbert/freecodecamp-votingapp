@@ -29775,24 +29775,26 @@
 		};
 	};
 	
+	var fetchPost = function fetchPost(url, reqBody) {
+		return (0, _isomorphicFetch2.default)(url, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(reqBody)
+		});
+	};
+	
 	// For new poll action send undefined pollLink parameter
 	function savePoll(pollLink, poll) {
-	
-		var reqBody = { pollLink: pollLink, poll: poll };
 	
 		return function (dispatch) {
 	
 			dispatch(sendPoll());
 	
-			return (0, _isomorphicFetch2.default)('/savePoll', {
-				method: 'POST',
-				credentials: 'include',
-				headers: {
-					'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(reqBody)
-			}).then(function (response) {
+			return fetchPost('/savePoll', { pollLink: pollLink, poll: poll }).then(function (response) {
 				dispatch(pollUpdateResponse(response.json().message));
 			});
 		};
@@ -29804,15 +29806,7 @@
 	
 			dispatch(sendVote());
 	
-			return (0, _isomorphicFetch2.default)('/vote', {
-				method: 'POST',
-				credentials: 'include',
-				headers: {
-					'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ pollId: pollId, vote: vote })
-			}).then(function (response) {
+			return fetchPost('/vote', { pollId: pollId, vote: vote }).then(function (response) {
 				if (response.json().message === 'Vote submitted') {
 					getPolls();
 				} else {
