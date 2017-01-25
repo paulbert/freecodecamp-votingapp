@@ -20,7 +20,7 @@ const editPoll = (state = defaultPoll,action) => {
 			return action.poll || defaultPoll;
 		case 'CHANGE_TEXT':
 			let newText = {};
-			if(action.prop === 'option') {
+			if(action.prop === 'options') {
 				newText.options = [].concat(state.options);
 				newText.options[action.index] = action.text;
 			} else {
