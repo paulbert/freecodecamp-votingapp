@@ -60,6 +60,7 @@ module.exports = exports = function(app,db) {
 	});
 	
 	app.post('/savePoll', function(req,res) {
+		console.log(req.body);
 		var poll = req.body.poll,
 			pollLink = req.body.pollLink || 'new',
 			user = req.cookies.user;

@@ -2,6 +2,8 @@
 var webpack = require('webpack'),
 	webpackCfg = require('./webpack.config.js'),
 	express = require('express'),
+	bodyParser = require('body-parser'),
+	cookieParser = require('cookie-parser'),
 	path = require('path'),
 	app = express(),
 	MongoClient = require('mongodb'),
@@ -22,9 +24,9 @@ MongoClient.connect(mongodb_connection_string,function(err,db) {
 	if(!err) {
 		app.set('port',process.env.PORT || 3000);
 
-		/*app.use(bodyParser.json());
+		app.use(bodyParser.json());
 		app.use(bodyParser.urlencoded({'extended':'true'}));
-		app.use(cookieParser());*/
+		app.use(cookieParser());
 		app.use(express.static(path.join(__dirname,'builds')));
 
 		compiler.watch(webpackCfg.watchOptions,webpackCfg.watchHandler);
