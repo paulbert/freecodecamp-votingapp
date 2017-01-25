@@ -30589,7 +30589,7 @@
 			_react2.default.createElement(
 				"button",
 				{ type: "submit", className: "btn btn-default" },
-				"Login"
+				"Add Poll"
 			)
 		);
 	};
