@@ -24487,6 +24487,12 @@
 		value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _reactRedux = __webpack_require__(183);
 	
 	var _PollList = __webpack_require__(235);
@@ -24496,6 +24502,40 @@
 	var _actions = __webpack_require__(292);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PollListContain = function (_Component) {
+		_inherits(PollListContain, _Component);
+	
+		function PollListContain() {
+			_classCallCheck(this, PollListContain);
+	
+			return _possibleConstructorReturn(this, (PollListContain.__proto__ || Object.getPrototypeOf(PollListContain)).apply(this, arguments));
+		}
+	
+		_createClass(PollListContain, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.props.getPolls();
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _props = this.props,
+				    polls = _props.polls,
+				    onPollEditClick = _props.onPollEditClick;
+	
+				return _react2.default.createElement(_PollList2.default, { polls: polls, onPollEditClick: onPollEditClick });
+			}
+		}]);
+	
+		return PollListContain;
+	}(_react.Component);
 	
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
@@ -24507,13 +24547,14 @@
 		return {
 			onPollEditClick: function onPollEditClick(poll) {
 				dispatch((0, _actions.editPoll)(poll));
+			},
+			getPolls: function getPolls() {
+				dispatch((0, _actions.getPolls)());
 			}
 		};
 	};
 	
-	var PollListContain = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_PollList2.default);
-	
-	exports.default = PollListContain;
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PollListContain);
 
 /***/ },
 /* 235 */
@@ -24536,21 +24577,25 @@
 	var PollList = function PollList(_ref) {
 		var polls = _ref.polls,
 		    onPollEditClick = _ref.onPollEditClick;
+	
+	
 		return _react2.default.createElement(
 			'section',
 			null,
 			_react2.default.createElement(
 				_reactRouter.Link,
-				{ className: 'btn btn-primary btn-lg', onClick: onPollEditClick(), to: '/editPoll' },
+				{ className: 'btn btn-primary btn-lg', onClick: function onClick() {
+						return onPollEditClick();
+					}, to: '/editPoll' },
 				'New Poll'
 			),
 			_react2.default.createElement(
 				'div',
 				{ className: 'btn-group-vertical' },
-				polls.map(function (poll) {
-					_react2.default.createElement(
+				polls.map(function (poll, ind) {
+					return _react2.default.createElement(
 						_reactRouter.Link,
-						{ className: 'btn btn-default', to: '/poll/' + poll.id },
+						{ key: ind, className: 'btn btn-default', to: '/poll/' + poll.link },
 						poll.title
 					);
 				})
@@ -29770,7 +29815,9 @@
 					'Content-Type': 'application/json'
 				}
 			}).then(function (response) {
-				dispatch(receivePolls(response.json()));
+				response.json().then(function (json) {
+					return dispatch(receivePolls(json));
+				});
 			});
 		};
 	};
@@ -29795,7 +29842,10 @@
 			dispatch(sendPoll());
 	
 			return fetchPost('/savePoll', { pollLink: pollLink, poll: poll }).then(function (response) {
-				dispatch(pollUpdateResponse(response.json().message));
+				response.json().then(function (res) {
+					console.log(res);
+					dispatch(pollUpdateResponse(res.message));
+				});
 			});
 		};
 	};
@@ -29807,11 +29857,13 @@
 			dispatch(sendVote());
 	
 			return fetchPost('/vote', { pollId: pollId, vote: vote }).then(function (response) {
-				if (response.json().message === 'Vote submitted') {
-					getPolls();
-				} else {
-					// TODO: Add action for vote submit failure message
-				}
+				response.json().then(function (json) {
+					if (json.message === 'Vote submitted') {
+						getPolls();
+					} else {
+						// TODO: Add action for vote submit failure message
+					}
+				});
 			});
 		};
 	};
@@ -30547,7 +30599,7 @@
 				poll.options.map(function (opt, ind) {
 					return _react2.default.createElement(
 						"button",
-						{ key: "ind", className: "btn btn-default", onClick: function onClick() {
+						{ key: ind, className: "btn btn-default", onClick: function onClick() {
 								return onVoteClick(pollId, vote);
 							} },
 						opt

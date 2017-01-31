@@ -9,7 +9,7 @@ var webpack = require('webpack'),
 	MongoClient = require('mongodb'),
 	compiler = webpack(webpackCfg.config);
 
-var db_name = 'euros';
+var db_name = 'votingApp';
 
 var mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + db_name;
 

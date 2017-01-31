@@ -1,6 +1,19 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PollList from '../components/PollList'
-import { editPoll } from '../actions'
+import { editPoll, getPolls } from '../actions'
+
+class PollListContain extends Component {
+	componentDidMount() {
+		this.props.getPolls();
+	}
+	
+	render() {
+		const { polls, onPollEditClick } = this.props;
+		return <PollList polls={polls} onPollEditClick={onPollEditClick}></PollList>
+	}
+	
+}
 
 const mapStateToProps = (state) => {
 	return {
@@ -12,10 +25,11 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onPollEditClick: (poll) => {
 			dispatch(editPoll(poll));
+		},
+		getPolls: () => {
+			dispatch(getPolls());
 		}
 	}
 };
 
-const PollListContain = connect(mapStateToProps,mapDispatchToProps)(PollList);
-
-export default PollListContain;
+export default connect(mapStateToProps,mapDispatchToProps)(PollListContain);

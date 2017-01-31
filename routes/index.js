@@ -68,10 +68,12 @@ module.exports = exports = function(app,db) {
 		user = 'test';
 		sessions.checkCookie(req.cookies,function(foundCookie) {
 			if(foundCookie) {
-				polls.upsert(poll,pollId,user,function(err,result) {
+				polls.upsert(poll,pollLink,user,function(err,result) {
+					console.log('Attempting upsert...');
 					if(err) {
 						res.json({'message':'Error'});
 					} else {
+						console.log('Poll upsert successful');
 						res.json({'message':'Success'});
 					}
 				});
@@ -96,10 +98,11 @@ module.exports = exports = function(app,db) {
 	});
 	
 	app.get('/polls', function(req,res) {
-		polls.get(req.cookies,function(err,allPolls) {
+		polls.get(function(err,allPolls) {
 			if(err) {
 				res.json({'message':'Error. Try reloading page.'});
 			} else {
+				console.log('Got polls!');
 				res.json(allPolls);
 			}
 		});

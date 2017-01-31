@@ -30,6 +30,7 @@ function sessionsDAO (db,testUsers) {
 	function checkCookie(cookie,callback) {
 		
 		// Once auth is finished delete this
+		callback(true);
 		return true;
 		
 		function checkEach(previous,current) {

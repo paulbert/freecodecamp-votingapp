@@ -64,7 +64,7 @@ export function getPolls() {
 			}
 		})
 		.then(response => {
-			dispatch(receivePolls(response.json()));
+			response.json().then((json) => dispatch(receivePolls(json)));
 		});
 	}
 };
@@ -90,7 +90,10 @@ export function savePoll(pollLink,poll) {
 		
 		return fetchPost('/savePoll',{pollLink:pollLink,poll:poll})
 		.then(response => {
-			dispatch(pollUpdateResponse(response.json().message));
+			response.json().then((res) => {
+				console.log(res);
+				dispatch(pollUpdateResponse(res.message));
+			});
 		});
 	}
 };
@@ -103,11 +106,13 @@ export function vote(pollId,vote) {
 		
 		return fetchPost('/vote',{pollId:pollId,vote:vote})
 		.then(response => {
-			if(response.json().message === 'Vote submitted') {
-				getPolls();
-			} else {
-				// TODO: Add action for vote submit failure message
-			}
+			response.json().then((json) => {
+				if(json.message === 'Vote submitted') {
+					getPolls();
+				} else {
+					// TODO: Add action for vote submit failure message
+				}
+			});
 		});
 	}
 };
