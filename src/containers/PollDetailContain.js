@@ -1,6 +1,11 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PollDetail from '../components/PollDetail'
 import { vote } from '../actions'
+
+class PollDetailContain extends Component {
+	
+}
 
 const mapStateToProps = (state,ownProps) => {
 	return {
