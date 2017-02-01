@@ -49,25 +49,51 @@ const receivePolls = (polls) => {
 	}
 };
 
+const gettingOnePoll = () => {
+	return {
+		type: 'GETTING_ONE_POLL'
+	}
+};
+
+const receiveOnePoll = () => {
+	return {
+		type: 'RECEIVE_ONE_POLL'
+	}
+};
+
+const fetchGet = (url) {
+	return fetch(url, {
+		method: 'GET',
+		credentials:'include',
+		headers: {
+			'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+			'Content-Type': 'application/json'
+		}
+	});
+};
+
 export function getPolls() {
 	
 	return function(dispatch) {
 		
 		dispatch(gettingPolls());
 		
-		return fetch('/polls', {
-			method: 'GET',
-			credentials:'include',
-			headers: {
-				'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-				'Content-Type': 'application/json'
-			}
-		})
+		return fetchGet('/polls')
 		.then(response => {
 			response.json().then((json) => dispatch(receivePolls(json)));
 		});
 	}
 };
+
+export function getOnePoll(pollLink) {
+	
+	return function(dispatch) {
+		dispatch(gettingOnePoll);
+		
+		return fetchGet('/onePoll?pollLink=' + pollLink)
+		.then(response => {
+			response.json().then((json) => dispatch(receiveOnePoll(json)));
+		});
 
 const fetchPost = (url,reqBody) => {
 	return fetch(url, {
@@ -80,6 +106,7 @@ const fetchPost = (url,reqBody) => {
 		body: JSON.stringify(reqBody)
 	})
 };
+	
 
 // For new poll action send undefined pollLink parameter
 export function savePoll(pollLink,poll) {

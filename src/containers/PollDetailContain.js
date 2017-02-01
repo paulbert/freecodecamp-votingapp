@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PollDetail from '../components/PollDetail'
-import { vote } from '../actions'
+import { vote,getOnePoll } from '../actions'
 
 class PollDetailContain extends Component {
 	
 	componentDidMount() {
-		this.props.getPolls(this.props.params.pollLink);
+		this.props.getPoll(this.props.params.pollLink);
 	}
 	
 	render() {
@@ -24,6 +24,9 @@ const mapStateToProps = (state,ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		getPoll:(pollLink) => {
+			dispatch(getOnePoll(pollLink));
+		},
 		onVoteClick: (pollLink,vote) => {
 			dispatch(vote(pollLink,vote));
 		}
