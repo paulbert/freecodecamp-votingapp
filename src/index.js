@@ -18,7 +18,7 @@ render(
 			<Route path="/" component={App}>
 				<IndexRoute component={Home} />
 				<Route path="/editPoll" component={EditPollBody} />
-				<Route path="/poll/:pollId" component={PollBody} />
+				<Route path="/poll/:pollLink" component={PollBody} />
 			</Route>
 		</Router>
 	</Provider>,

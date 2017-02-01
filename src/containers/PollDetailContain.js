@@ -5,24 +5,29 @@ import { vote } from '../actions'
 
 class PollDetailContain extends Component {
 	
+	componentDidMount() {
+		this.props.getPolls(this.props.params.pollLink);
+	}
+	
+	render() {
+		const { poll, onVoteClick } = this.props;
+		return <PollDetail poll={poll} onVoteClick={onVoteClick}></PollDetail>
+	}
+	
 }
 
 const mapStateToProps = (state,ownProps) => {
 	return {
-		poll:state.polls.filter((poll) => {
-			return poll.id === ownProps.pollId;
-		})[0]
+		poll:state.selectedPoll
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onVoteClick: (pollId,vote) => {
-			dispatch(vote(pollId,vote));
+		onVoteClick: (pollLink,vote) => {
+			dispatch(vote(pollLink,vote));
 		}
 	}
 };
 
-const PollDetailContain = connect(mapStateToProps,mapDispatchToProps)(PollDetail);
-
-export default PollDetailContain;
+export default connect(mapStateToProps,mapDispatchToProps)(PollDetailContain);
