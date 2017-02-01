@@ -72,9 +72,9 @@
 	
 	var _EditPollBody2 = _interopRequireDefault(_EditPollBody);
 	
-	var _PollBody = __webpack_require__(298);
+	var _PollDetailContain = __webpack_require__(299);
 	
-	var _PollBody2 = _interopRequireDefault(_PollBody);
+	var _PollDetailContain2 = _interopRequireDefault(_PollDetailContain);
 	
 	var _reduxThunk = __webpack_require__(300);
 	
@@ -97,7 +97,7 @@
 				{ path: '/', component: _App2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/editPoll', component: _EditPollBody2.default }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/poll/:pollLink', component: _PollBody2.default })
+				_react2.default.createElement(_reactRouter.Route, { path: '/poll/:pollLink', component: _PollDetailContain2.default })
 			)
 		)
 	), document.getElementById('root'));
@@ -30530,32 +30530,7 @@
 	exports.default = EditPoll;
 
 /***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _PollDetailContain = __webpack_require__(299);
-	
-	var _PollDetailContain2 = _interopRequireDefault(_PollDetailContain);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var PollBody = function PollBody() {
-		return _react2.default.createElement(_PollDetailContain2.default, null);
-	};
-	
-	exports.default = PollBody;
-
-/***/ },
+/* 298 */,
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
