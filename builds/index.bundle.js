@@ -29812,9 +29812,10 @@
 		};
 	};
 	
-	var receiveOnePoll = function receiveOnePoll() {
+	var receiveOnePoll = function receiveOnePoll(poll) {
 		return {
-			type: 'RECEIVE_ONE_POLL'
+			type: 'RECEIVE_ONE_POLL',
+			poll: poll
 		};
 	};
 	

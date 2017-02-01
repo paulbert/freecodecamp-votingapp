@@ -55,9 +55,10 @@ const gettingOnePoll = () => {
 	}
 };
 
-const receiveOnePoll = () => {
+const receiveOnePoll = (poll) => {
 	return {
-		type: 'RECEIVE_ONE_POLL'
+		type: 'RECEIVE_ONE_POLL',
+		poll
 	}
 };
 
