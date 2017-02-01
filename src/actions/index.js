@@ -61,7 +61,7 @@ const receiveOnePoll = () => {
 	}
 };
 
-const fetchGet = (url) {
+const fetchGet = (url) => {
 	return fetch(url, {
 		method: 'GET',
 		credentials:'include',
@@ -94,6 +94,8 @@ export function getOnePoll(pollLink) {
 		.then(response => {
 			response.json().then((json) => dispatch(receiveOnePoll(json)));
 		});
+	}
+}
 
 const fetchPost = (url,reqBody) => {
 	return fetch(url, {
