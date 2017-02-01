@@ -6,7 +6,7 @@ import { addOption } from '../actions'
 
 const mapStateToProps = (state) => {
 	return {
-		poll:state.editPoll
+		poll:state.selectedPoll
 	}
 };
 

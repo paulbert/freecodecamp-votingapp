@@ -12,8 +12,12 @@ const polls = (state = [],action) => {
 	}
 };
 
-const editPoll = (state = defaultPoll,action) => {
+const selectedPoll = (state = defaultPoll,action) => {
 	switch(action.type) {
+		case 'RECEIVE_ONE_POLL':
+			return action.poll;
+		// ACTIONS FOR POLL DETAIL PAGE
+		// ACTIONS FOR EDITING POLL PAGE
 		case 'ADD_OPTION':
 			return Object.assign({},state,{options:[].concat(state.options,[''])});
 		case 'EDIT_POLL':
@@ -38,7 +42,7 @@ const user = (state = 'test',action) => {
 
 const votingApp = combineReducers({
 	polls,
-	editPoll,
+	selectedPoll,
 	user
 });
 
