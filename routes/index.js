@@ -109,6 +109,26 @@ module.exports = exports = function(app,db) {
 		
 	});
 	
+	app.get('/onePoll', function(req,res) {
+		var pollLink = req.params.pollLink;
+		if(pollLink) {
+			polls.get(function(err,poll) {
+				if(err) {
+					res.json({'message':'Error. Try reloading page.'});
+				} else {
+					if(poll) {
+						console.log('Got ' + pollLink + '!');
+						res.json(poll);
+					} else {
+						res.json({'message':'Poll not found'});
+					}
+				}
+			});
+		} else {
+			res.json({'message':'No poll specified'});
+		
+	});
+	
 	app.get('*', function(req,res) {
 		/*
 		sessions.checkCookie(req.cookies,function(foundCookie) {

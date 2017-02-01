@@ -41,6 +41,10 @@ function pollsDAO (db,testUsers) {
 		db.collection(collection).find({}).sort({'date': -1}).toArray(callback);		
 	}
 	
+	function getOne(query,callback) {
+		db.collection(collection).findOne(query,callback);
+	}
+	
 	function vote(pollId,vote,user,callback) {
 		
 		function updateVoteArray(err,poll) {
@@ -73,6 +77,7 @@ function pollsDAO (db,testUsers) {
 	return {
 		upsert:upsert,
 		get:get,
+		getOne,
 		vote:vote
 	}
 	
