@@ -72,7 +72,7 @@
 	
 	var _EditPollBody2 = _interopRequireDefault(_EditPollBody);
 	
-	var _PollDetailContain = __webpack_require__(299);
+	var _PollDetailContain = __webpack_require__(298);
 	
 	var _PollDetailContain2 = _interopRequireDefault(_PollDetailContain);
 	
@@ -30530,8 +30530,7 @@
 	exports.default = EditPoll;
 
 /***/ },
-/* 298 */,
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30548,7 +30547,7 @@
 	
 	var _reactRedux = __webpack_require__(183);
 	
-	var _PollDetail = __webpack_require__(301);
+	var _PollDetail = __webpack_require__(299);
 	
 	var _PollDetail2 = _interopRequireDefault(_PollDetail);
 	
@@ -30610,35 +30609,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PollDetailContain);
 
 /***/ },
-/* 300 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	function createThunkMiddleware(extraArgument) {
-	  return function (_ref) {
-	    var dispatch = _ref.dispatch,
-	        getState = _ref.getState;
-	    return function (next) {
-	      return function (action) {
-	        if (typeof action === 'function') {
-	          return action(dispatch, getState, extraArgument);
-	        }
-	
-	        return next(action);
-	      };
-	    };
-	  };
-	}
-	
-	var thunk = createThunkMiddleware();
-	thunk.withExtraArgument = createThunkMiddleware;
-	
-	exports['default'] = thunk;
-
-/***/ },
-/* 301 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30686,6 +30657,34 @@
 	};
 	
 	exports.default = PollBody;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch,
+	        getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+	
+	        return next(action);
+	      };
+	    };
+	  };
+	}
+	
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+	
+	exports['default'] = thunk;
 
 /***/ }
 /******/ ]);

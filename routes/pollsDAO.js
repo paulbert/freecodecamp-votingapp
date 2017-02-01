@@ -77,7 +77,7 @@ function pollsDAO (db,testUsers) {
 	return {
 		upsert:upsert,
 		get:get,
-		getOne,
+		getOne:getOne,
 		vote:vote
 	}
 	

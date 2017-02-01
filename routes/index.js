@@ -110,9 +110,10 @@ module.exports = exports = function(app,db) {
 	});
 	
 	app.get('/onePoll', function(req,res) {
-		var pollLink = req.params.pollLink;
+		var pollLink = req.query.pollLink;
+		console.log('Getting ' + pollLink);
 		if(pollLink) {
-			polls.get(function(err,poll) {
+			polls.getOne({link:pollLink},function(err,poll) {
 				if(err) {
 					res.json({'message':'Error. Try reloading page.'});
 				} else {
@@ -120,12 +121,15 @@ module.exports = exports = function(app,db) {
 						console.log('Got ' + pollLink + '!');
 						res.json(poll);
 					} else {
+						console.log('Poll not found');
 						res.json({'message':'Poll not found'});
 					}
 				}
 			});
 		} else {
+			console.log('No poll specified')
 			res.json({'message':'No poll specified'});
+		}
 		
 	});
 	
