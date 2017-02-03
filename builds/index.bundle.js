@@ -30408,16 +30408,16 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var PollDetailContain = function (_Component) {
-		_inherits(PollDetailContain, _Component);
+	var EditPollContain = function (_Component) {
+		_inherits(EditPollContain, _Component);
 	
-		function PollDetailContain() {
-			_classCallCheck(this, PollDetailContain);
+		function EditPollContain() {
+			_classCallCheck(this, EditPollContain);
 	
-			return _possibleConstructorReturn(this, (PollDetailContain.__proto__ || Object.getPrototypeOf(PollDetailContain)).apply(this, arguments));
+			return _possibleConstructorReturn(this, (EditPollContain.__proto__ || Object.getPrototypeOf(EditPollContain)).apply(this, arguments));
 		}
 	
-		_createClass(PollDetailContain, [{
+		_createClass(EditPollContain, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				var pollLink = this.props.params.pollLink;
@@ -30430,15 +30430,11 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var _props = this.props,
-				    poll = _props.poll,
-				    onVoteClick = _props.onVoteClick;
-	
-				return _react2.default.createElement(PollDetail, { poll: poll, onVoteClick: onVoteClick });
+				return _react2.default.createElement(_EditPoll2.default, this.props);
 			}
 		}]);
 	
-		return PollDetailContain;
+		return EditPollContain;
 	}(_react.Component);
 	
 	var mapStateToProps = function mapStateToProps(state) {
@@ -30449,6 +30445,9 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		return {
+			getPoll: function getPoll(pollLink) {
+				dispatch((0, _actions.getOnePoll)(pollLink));
+			},
 			onTextChange: function onTextChange(prop, text, index) {
 				dispatch((0, _actions.changeText)(prop, text, index));
 			},
@@ -30464,9 +30463,21 @@
 		};
 	};
 	
-	var EditPollContain = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_EditPoll2.default);
+	var mapDispatchToPropsChild = function mapDispatchToPropsChild(dispatch) {
+		return {
+			onTextChange: function onTextChange(prop, text, index) {
+				dispatch((0, _actions.changeText)(prop, text, index));
+			},
+			onPollSubmit: function onPollSubmit(pollLink, poll) {
+				dispatch((0, _actions.savePoll)(pollLink, poll));
+			},
+			onAddOptClick: function onAddOptClick() {
+				dispatch((0, _actions.addOption)());
+			}
+		};
+	};
 	
-	exports.default = EditPollContain;
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditPollContain);
 
 /***/ },
 /* 297 */
@@ -30489,6 +30500,7 @@
 		    onTextChange = _ref.onTextChange,
 		    onPollSubmit = _ref.onPollSubmit,
 		    onAddOptClick = _ref.onAddOptClick;
+	
 		return _react2.default.createElement(
 			"form",
 			{ onSubmit: function onSubmit(e) {
@@ -30502,7 +30514,7 @@
 					{ className: "control-label" },
 					"Poll Title:"
 				),
-				_react2.default.createElement("input", { type: "text", className: "form-control", defaultValue: poll.title, onChange: function onChange(e) {
+				_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.title, onChange: function onChange(e) {
 						return onTextChange('title', e.target.value);
 					} })
 			),
@@ -30514,7 +30526,7 @@
 					{ className: "control-label" },
 					"Poll description:"
 				),
-				_react2.default.createElement("input", { type: "text", className: "form-control", defaultValue: poll.desc, onChange: function onChange(e) {
+				_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.desc, onChange: function onChange(e) {
 						return onTextChange('desc', e.target.value);
 					} })
 			),
@@ -30527,7 +30539,7 @@
 					"Options:"
 				),
 				poll.options.map(function (val, ind) {
-					return _react2.default.createElement("input", { key: "ind", type: "text", className: "form-control", defaultValue: val, onChange: function onChange(e) {
+					return _react2.default.createElement("input", { key: ind, type: "text", className: "form-control", value: val, onChange: function onChange(e) {
 							return onTextChange('options', e.target.value, ind);
 						} });
 				})
