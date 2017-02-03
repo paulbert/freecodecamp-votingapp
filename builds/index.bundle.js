@@ -30527,7 +30527,7 @@
 					"Options:"
 				),
 				poll.options.map(function (val, ind) {
-					return _react2.default.createElement("input", { type: "text", className: "form-control", defaultValue: val, onChange: function onChange(e) {
+					return _react2.default.createElement("input", { key: "ind", type: "text", className: "form-control", defaultValue: val, onChange: function onChange(e) {
 							return onTextChange('options', e.target.value, ind);
 						} });
 				})

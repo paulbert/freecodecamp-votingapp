@@ -15,7 +15,7 @@ const EditPoll = ({poll,onTextChange,onPollSubmit,onAddOptClick}) => (
 			<label className="control-label">Options:</label>
 			{
 				poll.options.map((val,ind) => (
-					<input type="text" className="form-control" defaultValue={val} onChange={(e) => onTextChange('options',e.target.value,ind)} />
+					<input key="ind" type="text" className="form-control" defaultValue={val} onChange={(e) => onTextChange('options',e.target.value,ind)} />
 				))
 			}
 		</div>
