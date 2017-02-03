@@ -1,8 +1,25 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import EditPoll from '../components/EditPoll'
-import { savePoll } from '../actions'
-import { changeText } from '../actions'
-import { addOption } from '../actions'
+import { savePoll, changeText, addOption, newPoll } from '../actions'
+
+class PollDetailContain extends Component {
+	
+	componentDidMount() {
+		const pollLink = this.props.params.pollLink;
+		if(pollLink) {
+			this.props.getPoll(pollLink);
+		} else {
+			this.props.newPoll();
+		}
+	}
+	
+	render() {
+		const { poll, onVoteClick } = this.props;
+		return <PollDetail poll={poll} onVoteClick={onVoteClick}></PollDetail>
+	}
+	
+}
 
 const mapStateToProps = (state) => {
 	return {
@@ -20,6 +37,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		onAddOptClick: () => {
 			dispatch(addOption());
+		},
+		newPoll: () => {
+			dispatch(newPoll());
 		}
 	}
 };

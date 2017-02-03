@@ -68,9 +68,9 @@
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
-	var _EditPollBody = __webpack_require__(295);
+	var _EditPollContain = __webpack_require__(296);
 	
-	var _EditPollBody2 = _interopRequireDefault(_EditPollBody);
+	var _EditPollContain2 = _interopRequireDefault(_EditPollContain);
 	
 	var _PollDetailContain = __webpack_require__(298);
 	
@@ -96,7 +96,7 @@
 				_reactRouter.Route,
 				{ path: '/', component: _App2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/editPoll', component: _EditPollBody2.default }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/editPoll(/:pollLink)', component: _EditPollContain2.default }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/poll/:pollLink', component: _PollDetailContain2.default })
 			)
 		)
@@ -24386,8 +24386,8 @@
 			// ACTIONS FOR EDITING POLL PAGE
 			case 'ADD_OPTION':
 				return Object.assign({}, state, { options: [].concat(state.options, ['']) });
-			case 'EDIT_POLL':
-				return action.poll || defaultPoll;
+			case 'NEW_POLL':
+				return defaultPoll;
 			case 'CHANGE_TEXT':
 				var newText = {};
 				if (action.prop === 'options') {
@@ -24534,7 +24534,7 @@
 				    polls = _props.polls,
 				    onPollEditClick = _props.onPollEditClick;
 	
-				return _react2.default.createElement(_PollList2.default, { polls: polls, onPollEditClick: onPollEditClick });
+				return _react2.default.createElement(_PollList2.default, { polls: polls });
 			}
 		}]);
 	
@@ -24549,9 +24549,6 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		return {
-			onPollEditClick: function onPollEditClick(poll) {
-				dispatch((0, _actions.editPoll)(poll));
-			},
 			getPolls: function getPolls() {
 				dispatch((0, _actions.getPolls)());
 			}
@@ -29746,7 +29743,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.changeText = exports.editPoll = exports.addOption = undefined;
+	exports.changeText = exports.newPoll = exports.addOption = undefined;
 	exports.getPolls = getPolls;
 	exports.getOnePoll = getOnePoll;
 	exports.savePoll = savePoll;
@@ -29764,10 +29761,9 @@
 		};
 	};
 	
-	var editPoll = exports.editPoll = function editPoll(poll) {
+	var newPoll = exports.newPoll = function newPoll() {
 		return {
-			type: 'EDIT_POLL',
-			poll: poll
+			type: 'NEW_POLL'
 		};
 	};
 	
@@ -30380,32 +30376,7 @@
 
 
 /***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _EditPollContain = __webpack_require__(296);
-	
-	var _EditPollContain2 = _interopRequireDefault(_EditPollContain);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var EditPollBody = function EditPollBody() {
-		return _react2.default.createElement(_EditPollContain2.default, null);
-	};
-	
-	exports.default = EditPollBody;
-
-/***/ },
+/* 295 */,
 /* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -30414,6 +30385,12 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
 	
 	var _reactRedux = __webpack_require__(183);
 	
@@ -30424,6 +30401,45 @@
 	var _actions = __webpack_require__(292);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PollDetailContain = function (_Component) {
+		_inherits(PollDetailContain, _Component);
+	
+		function PollDetailContain() {
+			_classCallCheck(this, PollDetailContain);
+	
+			return _possibleConstructorReturn(this, (PollDetailContain.__proto__ || Object.getPrototypeOf(PollDetailContain)).apply(this, arguments));
+		}
+	
+		_createClass(PollDetailContain, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var pollLink = this.props.params.pollLink;
+				if (pollLink) {
+					this.props.getPoll(pollLink);
+				} else {
+					this.props.newPoll();
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _props = this.props,
+				    poll = _props.poll,
+				    onVoteClick = _props.onVoteClick;
+	
+				return _react2.default.createElement(PollDetail, { poll: poll, onVoteClick: onVoteClick });
+			}
+		}]);
+	
+		return PollDetailContain;
+	}(_react.Component);
 	
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
@@ -30441,6 +30457,9 @@
 			},
 			onAddOptClick: function onAddOptClick() {
 				dispatch((0, _actions.addOption)());
+			},
+			newPoll: function newPoll() {
+				dispatch((0, _actions.newPoll)());
 			}
 		};
 	};
@@ -30590,7 +30609,7 @@
 		return PollDetailContain;
 	}(_react.Component);
 	
-	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	var mapStateToProps = function mapStateToProps(state) {
 		return {
 			poll: state.selectedPoll
 		};

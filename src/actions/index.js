@@ -7,10 +7,9 @@ export const addOption = () => {
 	}
 };
 
-export const editPoll = (poll) => {
+export const newPoll = () => {
 	return {
-		type: 'EDIT_POLL',
-		poll
+		type: 'NEW_POLL'
 	}
 };
 

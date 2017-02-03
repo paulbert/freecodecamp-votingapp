@@ -16,7 +16,7 @@ class PollDetailContain extends Component {
 	
 }
 
-const mapStateToProps = (state,ownProps) => {
+const mapStateToProps = (state) => {
 	return {
 		poll:state.selectedPoll
 	}

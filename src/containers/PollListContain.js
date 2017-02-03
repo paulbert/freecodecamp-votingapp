@@ -10,7 +10,7 @@ class PollListContain extends Component {
 	
 	render() {
 		const { polls, onPollEditClick } = this.props;
-		return <PollList polls={polls} onPollEditClick={onPollEditClick}></PollList>
+		return <PollList polls={polls}></PollList>
 	}
 	
 }
@@ -23,9 +23,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onPollEditClick: (poll) => {
-			dispatch(editPoll(poll));
-		},
 		getPolls: () => {
 			dispatch(getPolls());
 		}
