@@ -33,16 +33,17 @@ function pollsDAO (db,testUsers) {
 		if(pollLink === 'new') {
 			makeLink(poll.title.split(' '));
 		} else {
+			console.log('Start update...');
 			db.collection(collection).update({link:pollLink},Object.assign({},poll,{userId:user}),callback);
 		}
 	}
 	
 	function get(callback) {
-		db.collection(collection).find({}).sort({'date': -1}).toArray(callback);		
+		db.collection(collection).find({},{'_id':0}).sort({'date': -1}).toArray(callback);		
 	}
 	
 	function getOne(query,callback) {
-		db.collection(collection).findOne(query,callback);
+		db.collection(collection).findOne(query,{'_id':0},callback);
 	}
 	
 	function vote(pollId,vote,user,callback) {

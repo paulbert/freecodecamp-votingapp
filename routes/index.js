@@ -71,6 +71,7 @@ module.exports = exports = function(app,db) {
 				polls.upsert(poll,pollLink,user,function(err,result) {
 					console.log('Attempting upsert...');
 					if(err) {
+						console.log(err);
 						res.json({'message':'Error'});
 					} else {
 						console.log('Poll upsert successful');
@@ -127,7 +128,7 @@ module.exports = exports = function(app,db) {
 				}
 			});
 		} else {
-			console.log('No poll specified')
+			console.log('No poll specified');
 			res.json({'message':'No poll specified'});
 		}
 		

@@ -68,15 +68,15 @@
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
-	var _EditPollContain = __webpack_require__(296);
+	var _EditPollContain = __webpack_require__(295);
 	
 	var _EditPollContain2 = _interopRequireDefault(_EditPollContain);
 	
-	var _PollDetailContain = __webpack_require__(298);
+	var _PollDetailContain = __webpack_require__(297);
 	
 	var _PollDetailContain2 = _interopRequireDefault(_PollDetailContain);
 	
-	var _reduxThunk = __webpack_require__(300);
+	var _reduxThunk = __webpack_require__(299);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
@@ -30376,8 +30376,7 @@
 
 
 /***/ },
-/* 295 */,
-/* 296 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30394,7 +30393,7 @@
 	
 	var _reactRedux = __webpack_require__(183);
 	
-	var _EditPoll = __webpack_require__(297);
+	var _EditPoll = __webpack_require__(296);
 	
 	var _EditPoll2 = _interopRequireDefault(_EditPoll);
 	
@@ -30480,7 +30479,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditPollContain);
 
 /***/ },
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30562,7 +30561,7 @@
 	exports.default = EditPoll;
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30579,7 +30578,7 @@
 	
 	var _reactRedux = __webpack_require__(183);
 	
-	var _PollDetail = __webpack_require__(299);
+	var _PollDetail = __webpack_require__(298);
 	
 	var _PollDetail2 = _interopRequireDefault(_PollDetail);
 	
@@ -30641,7 +30640,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PollDetailContain);
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30691,7 +30690,7 @@
 	exports.default = PollBody;
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports) {
 
 	'use strict';
