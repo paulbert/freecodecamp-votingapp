@@ -85,14 +85,17 @@ module.exports = exports = function(app,db) {
 	});
 	
 	app.post('/vote', function(req,res) {
-		var pollId = req.body.pollId,
+		var pollLink = req.body.pollLink,
 			vote = req.body.vote,
 			user = req.cookies.user || 'anonymous';
 		
-		polls.vote(pollId,vote,user,function(err,result) {
+		polls.vote(pollLink,vote,user,function(err,result) {
+			console.log('Adding vote to ' + pollLink);
 			if(err) {
+				console.log('Error');
 				res.json({'message':'Error'});
 			} else {
+				console.log('Success!');
 				res.json({'message':'Vote submitted'});
 			}
 		});

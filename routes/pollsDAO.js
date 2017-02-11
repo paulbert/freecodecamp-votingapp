@@ -46,7 +46,7 @@ function pollsDAO (db,testUsers) {
 		db.collection(collection).findOne(query,{'_id':0},callback);
 	}
 	
-	function vote(pollId,vote,user,callback) {
+	function vote(pollLink,vote,user,callback) {
 		
 		function updateVoteArray(err,poll) {
 			if(err || !poll) {
@@ -56,7 +56,7 @@ function pollsDAO (db,testUsers) {
 			if(poll.votes) {
 				var newUser = true,
 					newVotes = [];
-				poll.votes.map(function(val) {
+				newVotes = poll.votes.map(function(val) {
 					if(val.user === user) {
 						newUser = false;
 						return Object.assign({},val,{vote:vote});
@@ -66,12 +66,17 @@ function pollsDAO (db,testUsers) {
 				if(newUser) {
 					newVotes = [].concat(poll.votes,{user:user,vote:vote});
 				}
+				console.log('Adding vote!');
 				poll.votes = newVotes;
-				db.collection(collection).update({_id:pollId},poll,callback);
+				db.collection(collection).update({link:pollLink},poll,callback);
+			} else {
+				console.log('First vote!');
+				poll.votes = [{user:user,vote:vote}];
+				db.collection(collection).update({link:pollLink},poll,callback);
 			}
 		}
 		
-		db.collection(collection).findOne({_id:pollId},updateVoteArray);
+		db.collection(collection).findOne({link:pollLink},updateVoteArray);
 		
 	}
 	

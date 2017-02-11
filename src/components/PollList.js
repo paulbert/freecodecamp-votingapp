@@ -6,11 +6,10 @@ const PollList = ({polls,onPollEditClick}) => {
 	return (
 	
 	<section>
-		<Link className="btn btn-primary btn-lg" onClick={() => onPollEditClick()} to="/editPoll">New Poll</Link>
-		<div className="btn-group-vertical">
+		<div className="list-group">
 			{polls.map((poll,ind) => {
 				return (
-					<Link key={ind} className="btn btn-default" to={'/poll/' + poll.link}>{poll.title}</Link>
+					<Link key={ind} className="list-group-item" to={'/poll/' + poll.link}>{poll.title}<Link to={'/editPoll/' + poll.link} className="btn btn-default editLink-pos">Edit</Link></Link>
 				);
 			})}
 		</div>

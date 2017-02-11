@@ -61,6 +61,12 @@ const receiveOnePoll = (poll) => {
 	}
 };
 
+const sendVote = () => {
+	return {
+		type: 'SEND_VOTE'
+	}
+};
+
 const fetchGet = (url) => {
 	return fetch(url, {
 		method: 'GET',
@@ -127,17 +133,17 @@ export function savePoll(pollLink,poll) {
 	}
 };
 
-export function vote(pollId,vote) {
+export function vote(pollLink,vote) {
 	
 	return function(dispatch) {
 		
 		dispatch(sendVote());
 		
-		return fetchPost('/vote',{pollId:pollId,vote:vote})
+		return fetchPost('/vote',{pollLink:pollLink,vote:vote})
 		.then(response => {
 			response.json().then((json) => {
 				if(json.message === 'Vote submitted') {
-					getPolls();
+					dispatch(getOnePoll(pollLink));
 				} else {
 					// TODO: Add action for vote submit failure message
 				}

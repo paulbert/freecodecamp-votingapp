@@ -1,10 +1,21 @@
 import React from 'react'
-//import HeaderContain from '../containers/HeaderContain'
+import { Link } from 'react-router'
 
 const App = ({children}) => (
 	
-	<div>
-		{children}
+	<div className="container">
+		<div className="col-md-4">
+			<nav id="main-nav">
+				<h1>Vote on stuff</h1>
+				<ul className="nav nav-stacked">
+					<li><Link to="/">Vote on something</Link></li>
+					<li><Link to="/editPoll">Create New Poll</Link></li>
+				</ul>
+			</nav>
+		</div>
+		<div className="col-md-8">
+			{children}
+		</div>
 	</div>
 );
 

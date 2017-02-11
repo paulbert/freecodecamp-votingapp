@@ -27,8 +27,8 @@ const mapDispatchToProps = (dispatch) => {
 		getPoll:(pollLink) => {
 			dispatch(getOnePoll(pollLink));
 		},
-		onVoteClick: (pollLink,vote) => {
-			dispatch(vote(pollLink,vote));
+		onVoteClick: (pollLink,voteString) => {
+			dispatch(vote(pollLink,voteString));
 		}
 	}
 };

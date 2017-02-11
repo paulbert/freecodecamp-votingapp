@@ -3,14 +3,17 @@ import React from 'react'
 const EditPoll = ({poll,onTextChange,onPollSubmit,onAddOptClick}) => { 
 return (
 	
-	<form onSubmit={(e) => { e.preventDefault(); return onPollSubmit(poll.link, poll);}}>
+	<form onSubmit={(e) => { 
+		e.preventDefault();
+		return onPollSubmit(poll.link, poll);
+		}}>
 		<div className="form-group">
 			<label className="control-label">Poll Title:</label>
-			<input type="text" className="form-control" value={poll.title} onChange={(e) => onTextChange('title',e.target.value)} />
+			<input type="text" className="form-control" value={poll.title} onChange={(e) => onTextChange('title',e.target.value)} required />
 		</div>
 		<div className="form-group">
 			<label className="control-label">Poll description:</label>
-			<input type="text" className="form-control" value={poll.desc} onChange={(e) => onTextChange('desc',e.target.value)} />
+			<input type="text" className="form-control" value={poll.desc} onChange={(e) => onTextChange('desc',e.target.value)} required />
 		</div>
 		<div className="form-group">
 			<label className="control-label">Options:</label>
