@@ -1,0 +1,12 @@
+@import "./mixins";
+
+.editLink-pos {
+	position:absolute;
+	left:100%;
+	top:50%;
+	@include transform (translate(5px,-50%));
+}
+
+.list-group, .list-group div {
+	position:relative;
+}
