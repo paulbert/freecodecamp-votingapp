@@ -31138,7 +31138,7 @@
 			}
 		};
 
-		return { data: chartData, options: { scales: { yAxes: [{ ticks: { callback: integersOnly, suggestedMax: 5 } }] } } };
+		return { data: chartData, options: { scales: { yAxes: [{ ticks: { callback: integersOnly, suggestedMax: 5, min: 0 } }] } } };
 	};
 
 /***/ },
