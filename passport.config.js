@@ -4,26 +4,26 @@ var FacebookStrategy = require('passport-facebook').Strategy,
 
 module.exports = function(db,passport,configObj) {
 
-	var Users = usersDAO(db);
+	var users = usersDAO(db);
 	
-    // used to serialize the user for the session
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
+	// used to serialize the user for the session
+	passport.serializeUser(function(user, done) {
+		done(null, user.id);
+	});
 
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        Users.getOne(id, function(err, user) {
-            done(err, user);
-        });
-    });
+	// used to deserialize the user
+	passport.deserializeUser(function(id, done) {
+		users.getOne(id, function(err, user) {
+			done(err, user);
+		});
+	});
     
-    passport.use(new FacebookStrategy(configObj,
+	passport.use(new FacebookStrategy(configObj,
 		// facebook will send back the token and profile
 		function(token, refreshToken, profile, done) {
 			// asynchronous
 			process.nextTick(function() {
-				Users.getOne(profile.id, function(err, user) {
+				users.getOne(profile.id, function(err, user) {
 					if (err) {
 						return done(err);
 					}
@@ -41,7 +41,7 @@ module.exports = function(db,passport,configObj) {
 						};
 
 						// save our user to the database
-						Users.insert(newUser, function(err) {
+						users.insert(newUser, function(err) {
 							if (err) {
 								throw err;
 							}
