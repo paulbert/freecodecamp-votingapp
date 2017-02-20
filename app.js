@@ -40,7 +40,7 @@ MongoClient.connect(mongodb_connection_string,function(err,db) {
 		app.use(function(req,res,next) {
 			if(!req.user && !req.cookie.anon_timestamp) {
 				// set cookie to expire in 30 days
-				var expiration = 1000 * 60 * 60 * 24 * 30;
+				var expiration = 30 * 24 * 3600000;
 				res.cookie('anon_timestamp','anon_' + Date.now(),{maxAge: expiration});
 				console.log('Set new anonymous cookie');
 			}
