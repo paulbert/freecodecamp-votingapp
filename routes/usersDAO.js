@@ -8,7 +8,7 @@ function usersDAO (db) {
 	}
 	
 	function getUser(userId,callback) {
-		db.collection(collection).findOne({fb_id:userId},{_id:-1},callback);
+		db.collection(collection).findOne({_id:userId},{fullName:true,firstName:true},callback);
 	}
 	
 	return {

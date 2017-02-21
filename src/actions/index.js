@@ -61,6 +61,19 @@ const receiveOnePoll = (poll) => {
 	}
 };
 
+const checkingLoggedIn = () => {
+	return {
+		type: 'CHECKING_LOGGED_IN'
+	}
+};
+
+const receiveUserInfo = (user) => {
+	return {
+		type: 'RECEIVE_USER_INFO',
+		user
+	}
+};
+
 const sendVote = () => {
 	return {
 		type: 'SEND_VOTE'
@@ -94,7 +107,7 @@ export function getPolls() {
 export function getOnePoll(pollLink) {
 	
 	return function(dispatch) {
-		dispatch(gettingOnePoll);
+		dispatch(gettingOnePoll());
 		
 		return fetchGet('/onePoll?pollLink=' + pollLink)
 		.then(response => {
@@ -102,6 +115,21 @@ export function getOnePoll(pollLink) {
 		});
 	}
 }
+
+export function checkLoggedIn() {
+	
+	return function(dispatch) {
+		dispatch(checkingLoggedIn());
+		
+		return fetchGet('/userInfo')
+		.then(response => {
+			response.json().then((json) => {
+				return dispatch(receiveUserInfo(json))
+			});
+		});
+	}
+	
+};
 
 const fetchPost = (url,reqBody) => {
 	return fetch(url, {

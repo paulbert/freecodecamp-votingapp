@@ -9,8 +9,12 @@ import EditPollContain from './containers/EditPollContain'
 import PollDetailContain from './containers/PollDetailContain'
 import thunkMiddleware from 'redux-thunk'
 import { Route,Router,browserHistory,IndexRoute } from 'react-router'
+import { checkLoggedIn } from './actions'
 
 let store = createStore(votingApp,applyMiddleware(thunkMiddleware));
+
+// Set state based on logged in status
+store.dispatch(checkLoggedIn());
 
 render(
 	<Provider store={store}>

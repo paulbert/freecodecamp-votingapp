@@ -36,8 +36,13 @@ const selectedPoll = (state = defaultPoll,action) => {
 	}
 };
 
-const user = (state = 'test',action) => {
-	return state;
+const user = (state = {empty:true},action) => {
+	switch(action.type) {
+		case 'RECEIVE_USER_INFO':
+			return action.user;
+		default:
+			return state;
+	}
 };
 
 const votingApp = combineReducers({

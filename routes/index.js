@@ -3,10 +3,29 @@ var usersDAO = require('./usersDAO'),
 	path = require('path'),
 	pollsDAO = require('./pollsDAO');
 	
-module.exports = exports = function(app,db) {
+module.exports = exports = function(app,db,passport) {
 	
 	var users = usersDAO(db),
 		polls = pollsDAO(db);
+		
+	// Facebook login passport routes
+	app.get('/auth/facebook', passport.authenticate('facebook'));
+	
+	app.get('/auth/facebook/callback',
+		passport.authenticate('facebook', { successRedirect: '/',failureRedirect: '/' }));
+		
+	app.get('/userInfo',function(req,res) {
+		console.log('The user is:');console.log(req.user);
+		var jsonResponse = req.user || { empty: true };
+		console.log(jsonResponse);
+		res.json(jsonResponse);
+	});
+	
+	app.get('/logout', function(req, res){
+		req.logout();
+		res.redirect('/');
+	});
+	// End Facebook login routes
 	
 	app.post('/savePoll', function(req,res) {
 		console.log(req.body);

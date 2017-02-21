@@ -26,7 +26,8 @@ var routes = require('./routes/index.js'),
 	passportObj = {
 		clientID: process.env.FB_APPID,
 		clientSecret: process.env.FB_APPSECRET,
-		callbackURL:process.env.FB_CBURL 
+		callbackURL:process.env.FB_CBURL,
+		profileFields:[ 'displayName','name' ]
 	};
 
 MongoClient.connect(mongodb_connection_string,function(err,db) {
@@ -50,14 +51,13 @@ MongoClient.connect(mongodb_connection_string,function(err,db) {
 			next();
 		});
 		app.use(express.static(path.join(__dirname,'builds')));
-		
-		app.use(expressSession({ secret: process.env.EXPRESS_SECRET, resave:false, saveUninitialized:false }));
+		app.use(expressSession({ secret: process.env.EXPRESS_SECRET, resave:true, saveUninitialized:true }));
 		app.use(passport.initialize());
 		app.use(passport.session());
 
 		compiler.watch(webpackCfg.watchOptions,webpackCfg.watchHandler);
 	
-		routes(app,db);
+		routes(app,db,passport);
 
 		app.listen(app.get('port'),app.get('ip'), function() {
 			console.log("Node app is running at localhost:" + app.get('port'));

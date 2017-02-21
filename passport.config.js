@@ -8,7 +8,7 @@ module.exports = function(db,passport,configObj) {
 	
 	// used to serialize the user for the session
 	passport.serializeUser(function(user, done) {
-		done(null, user.id);
+		done(null, user._id);
 	});
 
 	// used to deserialize the user
@@ -18,9 +18,12 @@ module.exports = function(db,passport,configObj) {
 		});
 	});
     
+	console.log(configObj);
+	
 	passport.use(new FacebookStrategy(configObj,
 		// facebook will send back the token and profile
 		function(token, refreshToken, profile, done) {
+			console.log(profile);
 			// asynchronous
 			process.nextTick(function() {
 				users.getOne(profile.id, function(err, user) {
@@ -34,7 +37,7 @@ module.exports = function(db,passport,configObj) {
 					} else {
 						// if there is no user found with that facebook id, create them
 						var newUser = {
-							fb_id: profile.id,
+							_id: profile.id,
 							token: token,
 							fullName: profile.name.givenName + ' ' + profile.name.familyName,
 							firstName: profile.name.givenName
