@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
+import FBLogin from './FBLogin'
 
 const App = ({children}) => (
 	
@@ -10,6 +11,7 @@ const App = ({children}) => (
 				<ul className="nav nav-stacked">
 					<li><Link to="/">Vote on something</Link></li>
 					<li><Link to="/editPoll">Create New Poll</Link></li>
+					<FBLogin />
 				</ul>
 			</nav>
 		</div>
