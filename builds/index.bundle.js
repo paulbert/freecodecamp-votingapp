@@ -40563,13 +40563,15 @@
 			_react2.default.createElement(
 				'div',
 				{ className: 'list-group' },
-				polls.map(function (poll, ind) {
+				polls.map(function (poll, ind, arr) {
+					var thisClass = 'list-group-item';
+					thisClass += ind === 0 ? ' list-group-item-first' : ind === arr.length - 1 ? ' list-group-item-last' : '';
 					return _react2.default.createElement(
 						'div',
-						{ key: ind },
+						{ key: ind, className: 'list-group-item-contain' },
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ className: 'list-group-item', to: '/poll/' + poll.link },
+							{ className: thisClass, to: '/poll/' + poll.link },
 							poll.title
 						),
 						_react2.default.createElement(
@@ -40620,7 +40622,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".editLink-pos {\n  position: absolute;\n  left: 100%;\n  top: 50%;\n  -moz-transform: translate(5px, -50%);\n  -o-transform: translate(5px, -50%);\n  -ms-transform: translate(5px, -50%);\n  -webkit-transform: translate(5px, -50%);\n  transform: translate(5px, -50%); }\n\n.list-group, .list-group div {\n  position: relative; }\n", ""]);
+	exports.push([module.id, ".editLink-pos {\n  position: absolute;\n  left: 100%;\n  top: 50%;\n  -moz-transform: translate(5px, -50%);\n  -o-transform: translate(5px, -50%);\n  -ms-transform: translate(5px, -50%);\n  -webkit-transform: translate(5px, -50%);\n  transform: translate(5px, -50%); }\n\n.list-group, .list-group div {\n  position: relative; }\n\n.list-group-item-contain .list-group-item {\n  border-top-left-radius: 0px;\n  border-top-right-radius: 0px; }\n\n.list-group-item-contain .list-group-item-first {\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px; }\n\n.list-group-item-contain .list-group-item-last {\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px; }\n", ""]);
 	
 	// exports
 

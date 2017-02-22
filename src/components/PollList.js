@@ -9,10 +9,12 @@ const PollList = ({polls,onPollEditClick}) => {
 	
 	<section>
 		<div className="list-group">
-			{polls.map((poll,ind) => {
+			{polls.map((poll,ind,arr) => {
+				let thisClass = 'list-group-item';
+				thisClass += ind === 0 ? ' list-group-item-first' : ind === arr.length - 1 ? ' list-group-item-last' : '';
 				return (
-					<div key={ind}>
-						<Link className="list-group-item" to={'/poll/' + poll.link}>{poll.title}</Link>
+					<div key={ind} className="list-group-item-contain">
+						<Link className={thisClass} to={'/poll/' + poll.link}>{poll.title}</Link>
 						<Link to={'/editPoll/' + poll.link} className="btn btn-default editLink-pos">Edit</Link>
 					</div>
 				);
