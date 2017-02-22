@@ -45,6 +45,10 @@ function pollsDAO (db,testUsers) {
 		db.collection(collection).findOne(query,{'_id':0},callback);
 	}
 	
+	function remove(query,callback) {
+		db.collection(collection).remove(query,callback);
+	}
+	
 	function vote(pollLink,vote,user,callback) {
 		
 		function updateVoteArray(err,poll) {
@@ -83,7 +87,8 @@ function pollsDAO (db,testUsers) {
 		upsert:upsert,
 		get:get,
 		getOne:getOne,
-		vote:vote
+		vote:vote,
+		remove
 	}
 	
 }

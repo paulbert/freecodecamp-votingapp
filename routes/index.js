@@ -33,14 +33,37 @@ module.exports = exports = function(app,db,passport) {
 			pollLink = req.body.pollLink || 'new',
 			user = req.user;
 		
+		console.log('Attempting upsert...');
 		polls.upsert(poll,pollLink,user,function(err,result) {
-			console.log('Attempting upsert...');
 			if(err) {
 				console.log(err);
 				res.json({'message':'Error'});
 			} else {
 				console.log('Poll upsert successful');
 				res.json({'message':'Success'});
+			}
+		});
+	});
+	
+	app.post('/removePoll', function(req,res) {
+		console.log(req.body);
+		var pollQuery = req.body.pollQuery;
+		
+		console.log('Removing a poll...');
+		polls.remove(pollQuery,function(err,numberOfRemovedDocs) {
+			if(err) {
+				console.log(err);
+				res.json({'message':'Error'});
+			} else {
+				if(numberOfRemovedDocs < 1) {
+					console.log('Did not find this poll',pollQuery);
+					res.json({'message':'Not found'});
+				} else {
+					if(numberOfRemovedDocs > 1) {
+						console.log('Deleted many polls with this query: ',pollQuery);
+					}
+					res.json({'message':'Success'});
+				}
 			}
 		});
 	});
