@@ -41348,6 +41348,8 @@
 		value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
@@ -41370,6 +41372,19 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var update = false;
+	
+	var updatePoll = function updatePoll(props) {
+		var pollLink = props.params.pollLink;
+		if (pollLink) {
+			props.getPoll(pollLink);
+			update = true;
+		} else {
+			props.newPoll();
+			update = false;
+		}
+	};
+	
 	var EditPollContain = function (_Component) {
 		_inherits(EditPollContain, _Component);
 	
@@ -41382,18 +41397,19 @@
 		_createClass(EditPollContain, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				var pollLink = this.props.params.pollLink;
-				if (pollLink) {
-					this.props.getPoll(pollLink);
-					this.props.update = true;
-				} else {
-					this.props.newPoll();
+				updatePoll(this.props);
+			}
+		}, {
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextProps) {
+				if (nextProps.params.pollLink !== this.props.params.pollLink) {
+					updatePoll(nextProps);
 				}
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(_EditPoll2.default, this.props);
+				return _react2.default.createElement(_EditPoll2.default, _extends({}, this.props, { update: update }));
 			}
 		}]);
 	
@@ -41426,27 +41442,13 @@
 		};
 	};
 	
-	var mapDispatchToPropsChild = function mapDispatchToPropsChild(dispatch) {
-		return {
-			onTextChange: function onTextChange(prop, text, index) {
-				dispatch((0, _actions.changeText)(prop, text, index));
-			},
-			onPollSubmit: function onPollSubmit(pollLink, poll) {
-				dispatch((0, _actions.savePoll)(pollLink, poll));
-			},
-			onAddOptClick: function onAddOptClick() {
-				dispatch((0, _actions.addOption)());
-			}
-		};
-	};
-	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditPollContain);
 
 /***/ },
 /* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -41466,71 +41468,72 @@
 		    onAddOptClick = _ref.onAddOptClick;
 	
 	
-		var pollName = poll.title;
+		var pollName = poll.title,
+		    headerText = update ? 'Editing this poll' : 'Create new poll';
 	
 		return _react2.default.createElement(
-			"main",
+			'main',
 			null,
 			_react2.default.createElement(
-				"h2",
+				'h2',
 				null,
-				"Create new poll"
+				headerText
 			),
 			_react2.default.createElement(
-				"form",
+				'form',
 				{ onSubmit: function onSubmit(e) {
 						e.preventDefault();
 						return onPollSubmit(poll.link, poll);
 					} },
 				_react2.default.createElement(
-					"div",
-					{ className: "form-group" },
+					'div',
+					{ className: 'form-group' },
 					_react2.default.createElement(
-						"label",
-						{ className: "control-label" },
-						"Poll Title:"
+						'label',
+						{ className: 'control-label' },
+						'Poll Title:'
 					),
-					_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.title, onChange: function onChange(e) {
+					_react2.default.createElement('input', { type: 'text', className: 'form-control', value: poll.title, onChange: function onChange(e) {
 							return onTextChange('title', e.target.value);
 						}, required: true, disabled: update })
 				),
 				_react2.default.createElement(
-					"div",
-					{ className: "form-group" },
+					'div',
+					{ className: 'form-group' },
 					_react2.default.createElement(
-						"label",
-						{ className: "control-label" },
-						"Poll description:"
+						'label',
+						{ className: 'control-label' },
+						'Poll description:'
 					),
-					_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.desc, onChange: function onChange(e) {
+					_react2.default.createElement('input', { type: 'text', className: 'form-control', value: poll.desc, onChange: function onChange(e) {
 							return onTextChange('desc', e.target.value);
 						}, required: true })
 				),
 				_react2.default.createElement(
-					"div",
-					{ className: "form-group" },
+					'div',
+					{ className: 'form-group' },
 					_react2.default.createElement(
-						"label",
-						{ className: "control-label" },
-						"Options:"
+						'label',
+						{ className: 'control-label' },
+						'Options:'
 					),
 					poll.options.map(function (val, ind) {
-						return _react2.default.createElement("input", { key: ind, type: "text", className: "form-control", value: val, onChange: function onChange(e) {
+						return _react2.default.createElement('input', { key: ind, type: 'text', className: 'form-control', value: val, onChange: function onChange(e) {
 								return onTextChange('options', e.target.value, ind);
 							} });
 					})
 				),
 				_react2.default.createElement(
-					"button",
-					{ type: "button", className: "btn btn-default", onClick: function onClick() {
+					'button',
+					{ type: 'button', className: 'btn btn-default', onClick: function onClick() {
 							return onAddOptClick();
 						} },
-					"Add Option"
+					'Add Option'
 				),
 				_react2.default.createElement(
-					"button",
-					{ type: "submit", className: "btn btn-default" },
-					"Add Poll"
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Add Poll'
 				)
 			)
 		);

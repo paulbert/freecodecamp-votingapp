@@ -2,12 +2,13 @@ import React from 'react'
 
 const EditPoll = ({poll,update,onTextChange,onPollSubmit,onAddOptClick}) => {
 	
-	let pollName = poll.title;
+	let pollName = poll.title,
+		headerText = update ? 'Editing this poll' : 'Create new poll'
 	
 	return (
 	
 	<main>
-		<h2>Create new poll</h2>
+		<h2>{headerText}</h2>
 		<form onSubmit={(e) => { 
 			e.preventDefault();
 			return onPollSubmit(poll.link, poll);

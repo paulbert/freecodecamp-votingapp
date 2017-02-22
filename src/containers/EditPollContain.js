@@ -3,20 +3,33 @@ import { connect } from 'react-redux'
 import EditPoll from '../components/EditPoll'
 import { savePoll, changeText, addOption, newPoll, getOnePoll } from '../actions'
 
+let update = false;
+
+const updatePoll = (props) => {
+	const pollLink = props.params.pollLink;
+	if(pollLink) {
+		props.getPoll(pollLink);
+		update = true;
+	} else {
+		props.newPoll();
+		update = false;
+	}
+}
+
 class EditPollContain extends Component {
 	
 	componentDidMount() {
-		const pollLink = this.props.params.pollLink;
-		if(pollLink) {
-			this.props.getPoll(pollLink);
-			this.props.update = true;
-		} else {
-			this.props.newPoll();
+		updatePoll(this.props);
+	}
+	
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.params.pollLink !== this.props.params.pollLink) {
+			updatePoll(nextProps);
 		}
 	}
 	
 	render() {
-		return <EditPoll { ...this.props }></EditPoll>
+		return <EditPoll { ...this.props } update={update}></EditPoll>
 	}
 	
 }
@@ -43,20 +56,6 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		newPoll: () => {
 			dispatch(newPoll());
-		}
-	}
-};
-
-const mapDispatchToPropsChild = (dispatch) => {
-	return {
-		onTextChange: (prop,text,index) => {
-			dispatch(changeText(prop,text,index));
-		},
-		onPollSubmit: (pollLink,poll) => {
-			dispatch(savePoll(pollLink,poll));
-		},
-		onAddOptClick: () => {
-			dispatch(addOption());
 		}
 	}
 };
