@@ -48,7 +48,7 @@ module.exports = exports = function(app,db,passport) {
 	app.post('/vote', function(req,res) {
 		var pollLink = req.body.pollLink,
 			vote = req.body.vote,
-			user = req.user || req.cookies.anon_timestamp;
+			user = req.user ? req.user._id : req.cookies.anon_timestamp;
 		
 		polls.vote(pollLink,vote,user,function(err,result) {
 			console.log('Adding vote to ' + pollLink);
