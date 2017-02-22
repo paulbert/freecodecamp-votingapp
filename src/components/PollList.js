@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 require('../css/PollList.scss');
 
-const PollList = ({polls,onPollEditClick}) => {
+const PollList = ({polls,userId}) => {
 	
 	return (
 	
@@ -15,7 +15,7 @@ const PollList = ({polls,onPollEditClick}) => {
 				return (
 					<div key={ind} className="list-group-item-contain">
 						<Link className={thisClass} to={'/poll/' + poll.link}>{poll.title}</Link>
-						<Link to={'/editPoll/' + poll.link} className="btn btn-default editLink-pos">Edit</Link>
+						{ poll.userId === userId ? <Link to={'/editPoll/' + poll.link} className="btn btn-default editLink-pos">Edit</Link> : ''}
 					</div>
 				);
 			})}

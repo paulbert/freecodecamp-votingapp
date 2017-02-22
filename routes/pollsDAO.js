@@ -27,7 +27,7 @@ function pollsDAO (db,testUsers) {
 		
 		function insert(linkString) {
 			console.log('Inserting new poll titled: ' + poll.title);
-			db.collection(collection).insert(Object.assign({},poll,{link:linkString,userId:user,date:new Date(Date.now())}),callback);
+			db.collection(collection).insert(Object.assign({},poll,{link:linkString,userId:user._id,userName:user.firstName,date:new Date(Date.now())}),callback);
 		}
 		
 		if(pollLink === 'new') {
