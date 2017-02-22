@@ -3,7 +3,7 @@ import PollListContain from '../containers/PollListContain'
 
 const Home = () => (
 	
-	<main className="container-fluid">
+	<main>
 		<h2>What would you like to vote on?</h2>
 		<PollListContain />
 	</main>
