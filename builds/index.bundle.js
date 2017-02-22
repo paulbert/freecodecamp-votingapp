@@ -41385,6 +41385,7 @@
 				var pollLink = this.props.params.pollLink;
 				if (pollLink) {
 					this.props.getPoll(pollLink);
+					this.props.update = true;
 				} else {
 					this.props.newPoll();
 				}
@@ -41459,65 +41460,78 @@
 	
 	var EditPoll = function EditPoll(_ref) {
 		var poll = _ref.poll,
+		    update = _ref.update,
 		    onTextChange = _ref.onTextChange,
 		    onPollSubmit = _ref.onPollSubmit,
 		    onAddOptClick = _ref.onAddOptClick;
 	
+	
+		var pollName = poll.title;
+	
 		return _react2.default.createElement(
-			"form",
-			{ onSubmit: function onSubmit(e) {
-					e.preventDefault();
-					return onPollSubmit(poll.link, poll);
-				} },
+			"main",
+			null,
 			_react2.default.createElement(
-				"div",
-				{ className: "form-group" },
-				_react2.default.createElement(
-					"label",
-					{ className: "control-label" },
-					"Poll Title:"
-				),
-				_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.title, onChange: function onChange(e) {
-						return onTextChange('title', e.target.value);
-					}, required: true })
+				"h2",
+				null,
+				"Create new poll"
 			),
 			_react2.default.createElement(
-				"div",
-				{ className: "form-group" },
-				_react2.default.createElement(
-					"label",
-					{ className: "control-label" },
-					"Poll description:"
-				),
-				_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.desc, onChange: function onChange(e) {
-						return onTextChange('desc', e.target.value);
-					}, required: true })
-			),
-			_react2.default.createElement(
-				"div",
-				{ className: "form-group" },
-				_react2.default.createElement(
-					"label",
-					{ className: "control-label" },
-					"Options:"
-				),
-				poll.options.map(function (val, ind) {
-					return _react2.default.createElement("input", { key: ind, type: "text", className: "form-control", value: val, onChange: function onChange(e) {
-							return onTextChange('options', e.target.value, ind);
-						} });
-				})
-			),
-			_react2.default.createElement(
-				"button",
-				{ type: "button", className: "btn btn-default", onClick: function onClick() {
-						return onAddOptClick();
+				"form",
+				{ onSubmit: function onSubmit(e) {
+						e.preventDefault();
+						return onPollSubmit(poll.link, poll);
 					} },
-				"Add Option"
-			),
-			_react2.default.createElement(
-				"button",
-				{ type: "submit", className: "btn btn-default" },
-				"Add Poll"
+				_react2.default.createElement(
+					"div",
+					{ className: "form-group" },
+					_react2.default.createElement(
+						"label",
+						{ className: "control-label" },
+						"Poll Title:"
+					),
+					_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.title, onChange: function onChange(e) {
+							return onTextChange('title', e.target.value);
+						}, required: true, disabled: update })
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "form-group" },
+					_react2.default.createElement(
+						"label",
+						{ className: "control-label" },
+						"Poll description:"
+					),
+					_react2.default.createElement("input", { type: "text", className: "form-control", value: poll.desc, onChange: function onChange(e) {
+							return onTextChange('desc', e.target.value);
+						}, required: true })
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "form-group" },
+					_react2.default.createElement(
+						"label",
+						{ className: "control-label" },
+						"Options:"
+					),
+					poll.options.map(function (val, ind) {
+						return _react2.default.createElement("input", { key: ind, type: "text", className: "form-control", value: val, onChange: function onChange(e) {
+								return onTextChange('options', e.target.value, ind);
+							} });
+					})
+				),
+				_react2.default.createElement(
+					"button",
+					{ type: "button", className: "btn btn-default", onClick: function onClick() {
+							return onAddOptClick();
+						} },
+					"Add Option"
+				),
+				_react2.default.createElement(
+					"button",
+					{ type: "submit", className: "btn btn-default" },
+					"Add Poll"
+				)
 			)
 		);
 	};

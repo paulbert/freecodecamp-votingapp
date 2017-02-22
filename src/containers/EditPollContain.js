@@ -9,6 +9,7 @@ class EditPollContain extends Component {
 		const pollLink = this.props.params.pollLink;
 		if(pollLink) {
 			this.props.getPoll(pollLink);
+			this.props.update = true;
 		} else {
 			this.props.newPoll();
 		}
