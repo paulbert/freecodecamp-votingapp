@@ -5,7 +5,6 @@ function pollsDAO (db,testUsers) {
 	
 	function upsert(poll,pollLink,user,callback) {
 		function makeLink(titleArr,attempt) {
-			console.log('Making link...');
 			var linkString = titleArr.reduce(function(linkString,val,ind) {
 				if(ind < attempt) {
 					if(linkString.length < 15) {
@@ -31,7 +30,7 @@ function pollsDAO (db,testUsers) {
 		}
 		
 		if(pollLink === 'new') {
-			makeLink(poll.title.split(' '));
+			makeLink(poll.title.split(' '),1);
 		} else {
 			console.log('Start update...');
 			db.collection(collection).update({link:pollLink},Object.assign({},poll,{userId:user}),callback);
