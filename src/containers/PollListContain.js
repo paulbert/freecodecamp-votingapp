@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PollList from '../components/PollList'
-import { editPoll, getPolls } from '../actions'
+import { deletePoll, getPolls } from '../actions'
 
 class PollListContain extends Component {
 	componentDidMount() {
@@ -25,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		getPolls: () => {
 			dispatch(getPolls());
+		},
+		onDeleteClick: (pollLink) => {
+			dispatch(deletePoll({link:pollLink}));
 		}
 	}
 };

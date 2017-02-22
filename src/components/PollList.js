@@ -3,14 +3,14 @@ import { Link } from 'react-router'
 
 require('../css/PollList.scss');
 
-const UserOptionsBtnGroup = ({pollLink}) => (
-	<div className="btn-group">
-		<Link to={'/editPoll/' + pollLink} className="btn btn-default">Edit</Link>
-		<Link to={'/editPoll/' + pollLink} className="btn btn-danger">Delete</Link>
-	</div>	
-);
-
-const PollList = ({polls,userId}) => {
+const PollList = ({polls,userId,onDeleteClick}) => {
+	
+	const UserOptionsBtnGroup = ({pollLink}) => (
+		<div className="btn-group">
+			<Link to={'/editPoll/' + pollLink} className="btn btn-default">Edit</Link>
+			<button className="btn btn-danger" onClick={() => onDeleteClick(pollLink)}>Delete</button>
+		</div>	
+	);
 	
 	return (
 	
@@ -26,7 +26,7 @@ const PollList = ({polls,userId}) => {
 							<Link className={thisClass} to={'/poll/' + poll.link}>{poll.title}</Link>
 						</td>
 						<td className="col-md-4">
-							{ poll.userId === userId ? <UserOptionsBtnGroup /> : ''}
+							{ poll.userId === userId ? <UserOptionsBtnGroup pollLink={poll.link} /> : ''}
 						</td>
 					</tr>
 				);

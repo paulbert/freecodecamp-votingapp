@@ -40563,6 +40563,9 @@
 		return {
 			getPolls: function getPolls() {
 				dispatch((0, _actions.getPolls)());
+			},
+			onDeleteClick: function onDeleteClick(pollLink) {
+				dispatch((0, _actions.deletePoll)({ link: pollLink }));
 			}
 		};
 	};
@@ -40589,28 +40592,31 @@
 	
 	__webpack_require__(310);
 	
-	var UserOptionsBtnGroup = function UserOptionsBtnGroup(_ref) {
-		var pollLink = _ref.pollLink;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'btn-group' },
-			_react2.default.createElement(
-				_reactRouter.Link,
-				{ to: '/editPoll/' + pollLink, className: 'btn btn-default' },
-				'Edit'
-			),
-			_react2.default.createElement(
-				_reactRouter.Link,
-				{ to: '/editPoll/' + pollLink, className: 'btn btn-danger' },
-				'Delete'
-			)
-		);
-	};
+	var PollList = function PollList(_ref) {
+		var polls = _ref.polls,
+		    userId = _ref.userId,
+		    onDeleteClick = _ref.onDeleteClick;
 	
-	var PollList = function PollList(_ref2) {
-		var polls = _ref2.polls,
-		    userId = _ref2.userId;
 	
+		var UserOptionsBtnGroup = function UserOptionsBtnGroup(_ref2) {
+			var pollLink = _ref2.pollLink;
+			return _react2.default.createElement(
+				'div',
+				{ className: 'btn-group' },
+				_react2.default.createElement(
+					_reactRouter.Link,
+					{ to: '/editPoll/' + pollLink, className: 'btn btn-default' },
+					'Edit'
+				),
+				_react2.default.createElement(
+					'button',
+					{ className: 'btn btn-danger', onClick: function onClick() {
+							return onDeleteClick(pollLink);
+						} },
+					'Delete'
+				)
+			);
+		};
 	
 		return _react2.default.createElement(
 			'section',
@@ -40639,7 +40645,7 @@
 							_react2.default.createElement(
 								'td',
 								{ className: 'col-md-4' },
-								poll.userId === userId ? _react2.default.createElement(UserOptionsBtnGroup, null) : ''
+								poll.userId === userId ? _react2.default.createElement(UserOptionsBtnGroup, { pollLink: poll.link }) : ''
 							)
 						);
 					})
@@ -40704,6 +40710,7 @@
 	exports.getOnePoll = getOnePoll;
 	exports.checkLoggedIn = checkLoggedIn;
 	exports.savePoll = savePoll;
+	exports.deletePoll = deletePoll;
 	exports.vote = vote;
 	
 	var _isomorphicFetch = __webpack_require__(313);
@@ -40791,6 +40798,12 @@
 		};
 	};
 	
+	var tryDeletePoll = function tryDeletePoll() {
+		return {
+			type: 'TRY_DELETE_POLL'
+		};
+	};
+	
 	var fetchGet = function fetchGet(url) {
 		return (0, _isomorphicFetch2.default)(url, {
 			method: 'GET',
@@ -40869,6 +40882,21 @@
 			});
 		};
 	};
+	
+	function deletePoll(pollQuery) {
+	
+		return function (dispatch) {
+	
+			dispatch(tryDeletePoll());
+	
+			return fetchPost('/removePoll', { pollQuery: pollQuery }).then(function (response) {
+				response.json().then(function (res) {
+					console.log(res);
+					dispatch(getPolls());
+				});
+			});
+		};
+	}
 	
 	function vote(pollLink, vote) {
 	

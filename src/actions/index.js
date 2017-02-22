@@ -80,6 +80,12 @@ const sendVote = () => {
 	}
 };
 
+const tryDeletePoll = () => {
+	return {
+		type: 'TRY_DELETE_POLL'
+	}
+};
+
 const fetchGet = (url) => {
 	return fetch(url, {
 		method: 'GET',
@@ -160,6 +166,23 @@ export function savePoll(pollLink,poll) {
 		});
 	}
 };
+
+export function deletePoll(pollQuery) {
+	
+	return function(dispatch) {
+		
+		dispatch(tryDeletePoll());
+		
+		return fetchPost('/removePoll',{pollQuery:pollQuery})
+		.then(response => {
+			response.json().then((res) => {
+				console.log(res);
+				dispatch(getPolls());
+			});
+		});
+	}
+	
+}
 
 export function vote(pollLink,vote) {
 	

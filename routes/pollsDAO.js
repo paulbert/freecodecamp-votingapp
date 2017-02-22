@@ -88,7 +88,7 @@ function pollsDAO (db,testUsers) {
 		get:get,
 		getOne:getOne,
 		vote:vote,
-		remove
+		remove:remove
 	}
 	
 }
