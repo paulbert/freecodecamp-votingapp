@@ -40629,7 +40629,8 @@
 					null,
 					polls.map(function (poll, ind, arr) {
 						var thisClass = 'list-group-item';
-						thisClass += ind === 0 ? ' list-group-item-first' : ind === arr.length - 1 ? ' list-group-item-last' : '';
+						thisClass += ind === 0 ? ' list-group-item-first' : '';
+						thisClass += ind === arr.length - 1 ? ' list-group-item-last' : '';
 						return _react2.default.createElement(
 							'tr',
 							{ key: ind, className: 'list-group-item-contain' },

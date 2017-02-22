@@ -19,7 +19,8 @@ const PollList = ({polls,userId,onDeleteClick}) => {
 			<tbody>
 			{polls.map((poll,ind,arr) => {
 				let thisClass = 'list-group-item';
-				thisClass += ind === 0 ? ' list-group-item-first' : ind === arr.length - 1 ? ' list-group-item-last' : '';
+				thisClass += ind === 0 ? ' list-group-item-first' : '';
+				thisClass += ind === arr.length - 1 ? ' list-group-item-last' : '';
 				return (
 					<tr key={ind} className="list-group-item-contain">
 						<td className="col-md-8">
