@@ -40589,35 +40589,61 @@
 	
 	__webpack_require__(310);
 	
-	var PollList = function PollList(_ref) {
-		var polls = _ref.polls,
-		    userId = _ref.userId;
+	var UserOptionsBtnGroup = function UserOptionsBtnGroup(_ref) {
+		var pollLink = _ref.pollLink;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'btn-group' },
+			_react2.default.createElement(
+				_reactRouter.Link,
+				{ to: '/editPoll/' + pollLink, className: 'btn btn-default' },
+				'Edit'
+			),
+			_react2.default.createElement(
+				_reactRouter.Link,
+				{ to: '/editPoll/' + pollLink, className: 'btn btn-danger' },
+				'Delete'
+			)
+		);
+	};
+	
+	var PollList = function PollList(_ref2) {
+		var polls = _ref2.polls,
+		    userId = _ref2.userId;
 	
 	
 		return _react2.default.createElement(
 			'section',
 			null,
 			_react2.default.createElement(
-				'div',
-				{ className: 'list-group' },
-				polls.map(function (poll, ind, arr) {
-					var thisClass = 'list-group-item';
-					thisClass += ind === 0 ? ' list-group-item-first' : ind === arr.length - 1 ? ' list-group-item-last' : '';
-					return _react2.default.createElement(
-						'div',
-						{ key: ind, className: 'list-group-item-contain' },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ className: thisClass, to: '/poll/' + poll.link },
-							poll.title
-						),
-						poll.userId === userId ? _react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/editPoll/' + poll.link, className: 'btn btn-default editLink-pos' },
-							'Edit'
-						) : ''
-					);
-				})
+				'table',
+				{ className: 'list-group width-100pct' },
+				_react2.default.createElement(
+					'tbody',
+					null,
+					polls.map(function (poll, ind, arr) {
+						var thisClass = 'list-group-item';
+						thisClass += ind === 0 ? ' list-group-item-first' : ind === arr.length - 1 ? ' list-group-item-last' : '';
+						return _react2.default.createElement(
+							'tr',
+							{ key: ind, className: 'list-group-item-contain' },
+							_react2.default.createElement(
+								'td',
+								{ className: 'col-md-8' },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ className: thisClass, to: '/poll/' + poll.link },
+									poll.title
+								)
+							),
+							_react2.default.createElement(
+								'td',
+								{ className: 'col-md-4' },
+								poll.userId === userId ? _react2.default.createElement(UserOptionsBtnGroup, null) : ''
+							)
+						);
+					})
+				)
 			)
 		);
 	};
@@ -40659,7 +40685,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".editLink-pos {\n  position: absolute;\n  left: 100%;\n  top: 50%;\n  -moz-transform: translate(5px, -50%);\n  -o-transform: translate(5px, -50%);\n  -ms-transform: translate(5px, -50%);\n  -webkit-transform: translate(5px, -50%);\n  transform: translate(5px, -50%); }\n\n.list-group, .list-group div {\n  position: relative; }\n\n.list-group-item-contain .list-group-item {\n  border-top-left-radius: 0px;\n  border-top-right-radius: 0px; }\n\n.list-group-item-contain .list-group-item-first {\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px; }\n\n.list-group-item-contain .list-group-item-last {\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px; }\n", ""]);
+	exports.push([module.id, ".width-100pct {\n  width: 100%; }\n\ntd {\n  padding: 0; }\n\n.list-group-item-contain .list-group-item {\n  border-top-left-radius: 0px;\n  border-top-right-radius: 0px;\n  border-top: none; }\n\n.list-group-item-contain .list-group-item:last-child {\n  border-bottom-left-radius: 0px;\n  border-bottom-right-radius: 0px; }\n\n.list-group-item-contain .list-group-item-first {\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px;\n  border-top: 1px solid #DDDDDD; }\n\n.list-group-item-contain .list-group-item.list-group-item-last {\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px; }\n", ""]);
 	
 	// exports
 
