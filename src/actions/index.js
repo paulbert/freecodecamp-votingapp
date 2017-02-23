@@ -97,13 +97,13 @@ const fetchGet = (url) => {
 	});
 };
 
-export function getPolls() {
+export function getPolls(userOnly) {
 	
 	return function(dispatch) {
 		
 		dispatch(gettingPolls());
 		
-		return fetchGet('/polls')
+		return fetchGet('/polls?userOnly=' + userOnly)
 		.then(response => {
 			response.json().then((json) => dispatch(receivePolls(json)));
 		});

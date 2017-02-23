@@ -102,7 +102,8 @@
 				{ path: '/', component: _App2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/editPoll(/:pollLink)', component: _EditPollContain2.default }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/poll/:pollLink', component: _PollDetailContain2.default })
+				_react2.default.createElement(_reactRouter.Route, { path: '/poll/:pollLink', component: _PollDetailContain2.default }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/myPolls', component: _Home2.default })
 			)
 		)
 	), document.getElementById('root'));
@@ -40481,16 +40482,18 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Home = function Home() {
+	var Home = function Home(_ref) {
+		var location = _ref.location;
+	
 		return _react2.default.createElement(
 			'main',
 			null,
 			_react2.default.createElement(
 				'h2',
 				null,
-				'What would you like to vote on?'
+				location.pathname === '/' ? 'What would you like to vote on?' : 'Your polls'
 			),
-			_react2.default.createElement(_PollListContain2.default, null)
+			_react2.default.createElement(_PollListContain2.default, { location: location })
 		);
 	};
 	
@@ -40540,7 +40543,14 @@
 		_createClass(PollListContain, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				this.props.getPolls();
+				this.props.getPolls(this.props.location.pathname === '/myPolls');
+			}
+		}, {
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextProps) {
+				if (nextProps.location.pathname !== this.props.location.pathname) {
+					this.props.getPolls(nextProps.location.pathname === '/myPolls');
+				}
 			}
 		}, {
 			key: 'render',
@@ -40561,8 +40571,8 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		return {
-			getPolls: function getPolls() {
-				dispatch((0, _actions.getPolls)());
+			getPolls: function getPolls(userOnly) {
+				dispatch((0, _actions.getPolls)(userOnly));
 			},
 			onDeleteClick: function onDeleteClick(pollLink) {
 				dispatch((0, _actions.deletePoll)({ link: pollLink }));
@@ -40816,13 +40826,13 @@
 		});
 	};
 	
-	function getPolls() {
+	function getPolls(userOnly) {
 	
 		return function (dispatch) {
 	
 			dispatch(gettingPolls());
 	
-			return fetchGet('/polls').then(function (response) {
+			return fetchGet('/polls?userOnly=' + userOnly).then(function (response) {
 				response.json().then(function (json) {
 					return dispatch(receivePolls(json));
 				});

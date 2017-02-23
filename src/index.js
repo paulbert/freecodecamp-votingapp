@@ -23,6 +23,7 @@ render(
 				<IndexRoute component={Home} />
 				<Route path="/editPoll(/:pollLink)" component={EditPollContain} />
 				<Route path="/poll/:pollLink" component={PollDetailContain} />
+				<Route path="/myPolls" component={Home} />
 			</Route>
 		</Router>
 	</Provider>,

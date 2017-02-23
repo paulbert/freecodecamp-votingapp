@@ -86,7 +86,8 @@ module.exports = exports = function(app,db,passport) {
 	});
 	
 	app.get('/polls', function(req,res) {
-		polls.get(function(err,allPolls) {
+		var query = req.query.userOnly === 'true' ? {userId:req.user._id} : {};
+		polls.get(query,function(err,allPolls) {
 			if(err) {
 				res.json({'message':'Error. Try reloading page.'});
 			} else {

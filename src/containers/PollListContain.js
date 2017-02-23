@@ -5,7 +5,13 @@ import { deletePoll, getPolls } from '../actions'
 
 class PollListContain extends Component {
 	componentDidMount() {
-		this.props.getPolls();
+		this.props.getPolls(this.props.location.pathname === '/myPolls');
+	}
+	
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.location.pathname !== this.props.location.pathname) {
+			this.props.getPolls(nextProps.location.pathname === '/myPolls');
+		}
 	}
 	
 	render() {
@@ -23,8 +29,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getPolls: () => {
-			dispatch(getPolls());
+		getPolls: (userOnly) => {
+			dispatch(getPolls(userOnly));
 		},
 		onDeleteClick: (pollLink) => {
 			dispatch(deletePoll({link:pollLink}));

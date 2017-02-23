@@ -37,8 +37,8 @@ function pollsDAO (db,testUsers) {
 		}
 	}
 	
-	function get(callback) {
-		db.collection(collection).find({},{'_id':0}).sort({'date': -1}).toArray(callback);		
+	function get(query,callback) {
+		db.collection(collection).find(query,{'_id':0}).sort({'date': -1}).toArray(callback);		
 	}
 	
 	function getOne(query,callback) {
