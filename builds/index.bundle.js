@@ -41816,6 +41816,15 @@
 				poll.desc
 			),
 			_react2.default.createElement(
+				'p',
+				null,
+				_react2.default.createElement(
+					'em',
+					null,
+					'A poll by ' + poll.userName
+				)
+			),
+			_react2.default.createElement(
 				'div',
 				{ className: 'btn-group-vertical' },
 				poll.options.map(function (opt, ind) {
