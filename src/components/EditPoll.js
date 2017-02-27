@@ -1,10 +1,15 @@
 import React from 'react'
 
-const EditPoll = ({poll,update,onTextChange,onPollSubmit,onAddOptClick,onRemoveOptClick}) => {
+require('../css/EditPoll.scss');
+
+const EditPoll = ({poll,displayMessage,update,onTextChange,onPollSubmit,onAddOptClick,onRemoveOptClick}) => {
 	
 	let pollName = poll.title,
 		headerText = update ? 'Editing this poll' : 'Create new poll',
-		deleteBtnClass = 'btn btn-default' + (poll.options.length < 3 ? ' disabled' : '');
+		deleteBtnClass = 'btn btn-default' + (poll.options.length < 3 ? ' disabled' : ''),
+		messageClass = displayMessage.class + ' alert',
+		titleClass = displayMessage.title + ' form-group',
+		optClass = displayMessage.options + ' form-group';
 	
 	return (
 	
@@ -14,15 +19,15 @@ const EditPoll = ({poll,update,onTextChange,onPollSubmit,onAddOptClick,onRemoveO
 			e.preventDefault();
 			return onPollSubmit(poll.link, poll);
 		}}>
-			<div className="form-group">
+			<div className={titleClass}>
 				<label className="control-label">Poll Title:</label>
-				<input type="text" className="form-control" value={poll.title} onChange={(e) => onTextChange('title',e.target.value)} required disabled={update} />
+				<input type="text" className="form-control" value={poll.title} onChange={(e) => onTextChange('title',e.target.value)} disabled={update} />
 			</div>
 			<div className="form-group">
 				<label className="control-label">Poll description:</label>
-				<input type="text" className="form-control" value={poll.desc} onChange={(e) => onTextChange('desc',e.target.value)} required />
+				<input type="text" className="form-control" value={poll.desc} onChange={(e) => onTextChange('desc',e.target.value)} />
 			</div>
-			<div className="form-group">
+			<div className={optClass}>
 				<label className="control-label">Options:</label>
 				{
 					poll.options.map((val,ind) => (
@@ -38,6 +43,9 @@ const EditPoll = ({poll,update,onTextChange,onPollSubmit,onAddOptClick,onRemoveO
 				<button type="submit" className="btn btn-default">{update ? 'Edit Poll' : 'Add Poll'}</button>
 			</div>
 		</form>
+		<div className={messageClass}>
+			<p>{displayMessage.message}</p>
+		</div>
 	</main>
 
 )};

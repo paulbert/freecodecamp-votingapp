@@ -34,7 +34,7 @@ const sendPoll = () => {
 	}
 };
 
-const pollUpdateResponse = (response) => {
+export const pollUpdateResponse = (response) => {
 	return {
 		type:'POLL_UPDATE_RESPONSE',
 		response
@@ -166,8 +166,7 @@ export function savePoll(pollLink,poll) {
 		return fetchPost('/savePoll',{pollLink:pollLink,poll:poll})
 		.then(response => {
 			response.json().then((res) => {
-				console.log(res);
-				dispatch(pollUpdateResponse(res.message));
+				dispatch(pollUpdateResponse(res));
 			});
 		});
 	}

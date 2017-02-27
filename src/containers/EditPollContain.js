@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import EditPoll from '../components/EditPoll'
-import { savePoll, changeText, addOption, removeOption, newPoll, getOnePoll } from '../actions'
+import { savePoll, changeText, addOption, pollUpdateResponse, removeOption, newPoll, getOnePoll } from '../actions'
 
 let update = false;
 
@@ -14,7 +14,25 @@ const updatePoll = (props) => {
 		props.newPoll();
 		update = false;
 	}
-}
+};
+
+const pollValidation = (poll) => {
+	let invalidObj = {};
+	if(poll.title === '' || typeof poll.title === 'undefined') {
+		invalidObj = { message: 'Poll title required', class:'alert-danger', title:'has-error' };
+	}
+	let optDuplicate = poll.options.slice(0).sort().reduce((dupFound,item,ind,arr) => {
+		if(dupFound) {
+			return true;
+		}
+		return item === arr[ind + 1];
+	},false);
+	if(optDuplicate) {
+		let message = (invalidObj.message ? invalidObj.message + ' & o' : 'O') + 'ptions must be unique';
+		invalidObj = Object.assign({},invalidObj,{ message: message, class:'alert-danger', options:'has-error' });
+	}
+	return invalidObj;
+};
 
 class EditPollContain extends Component {
 	
@@ -36,7 +54,8 @@ class EditPollContain extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		poll:state.selectedPoll
+		poll:state.selectedPoll,
+		displayMessage:state.displayMessage
 	}
 };
 
@@ -49,7 +68,12 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeText(prop,text,index));
 		},
 		onPollSubmit: (pollLink,poll) => {
-			dispatch(savePoll(pollLink,poll));
+			let pollInvalid = pollValidation(poll);
+			if(pollInvalid !== {}) {
+				dispatch(pollUpdateResponse(pollInvalid));
+			} else {
+				dispatch(savePoll(pollLink,poll));
+			}
 		},
 		onAddOptClick: () => {
 			dispatch(addOption());

@@ -49,10 +49,25 @@ const user = (state = {empty:true},action) => {
 	}
 };
 
+const defaultMessage = { class:'hidden', message: '', title:'', options:'' }
+
+const displayMessage = (state = defaultMessage,action) => {
+	switch(action.type) {
+		case 'POLL_UPDATE_RESPONSE':
+			return Object.assign({},defaultMessage,action.response);
+		case 'NEW_POLL':
+		case 'GETTING_ONE_POLL':
+			return defaultMessage;
+		default:
+			return state;
+	}
+};
+
 const votingApp = combineReducers({
 	polls,
 	selectedPoll,
-	user
+	user,
+	displayMessage
 });
 
 export default votingApp;

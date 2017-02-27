@@ -33,16 +33,19 @@ module.exports = exports = function(app,db,passport) {
 			pollLink = req.body.pollLink || 'new',
 			user = req.user;
 		
-		console.log('Attempting upsert...');
-		polls.upsert(poll,pollLink,user,function(err,result) {
-			if(err) {
-				console.log(err);
-				res.json({'message':'Error'});
-			} else {
-				console.log('Poll upsert successful');
-				res.json({'message':'Success'});
-			}
-		});
+		if(user) {
+			polls.upsert(poll,pollLink,user,function(err,result) {
+				if(err) {
+					console.log(err);
+					res.json({'message':'There was a problem adding your poll.  Please try again.','class':'alert-danger'});
+				} else {
+					var resMessage = pollLink === 'new' ? 'Poll successfully added' : 'Poll successfully updated';
+					res.json({'message':resMessage,'class':'alert-success'});
+				}
+			});
+		} else {
+			res.json({'message':'There was a problem adding your poll.  Please refresh the page and log back in.','class':'alert-danger'});
+		}
 	});
 	
 	app.post('/removePoll', function(req,res) {

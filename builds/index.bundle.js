@@ -24424,10 +24424,28 @@
 		}
 	};
 	
+	var defaultMessage = { class: 'hidden', message: '', title: '', options: '' };
+	
+	var displayMessage = function displayMessage() {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultMessage;
+		var action = arguments[1];
+	
+		switch (action.type) {
+			case 'POLL_UPDATE_RESPONSE':
+				return Object.assign({}, defaultMessage, action.response);
+			case 'NEW_POLL':
+			case 'GETTING_ONE_POLL':
+				return defaultMessage;
+			default:
+				return state;
+		}
+	};
+	
 	var votingApp = (0, _redux.combineReducers)({
 		polls: polls,
 		selectedPoll: selectedPoll,
-		user: user
+		user: user,
+		displayMessage: displayMessage
 	});
 	
 	exports.default = votingApp;
@@ -40720,7 +40738,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.changeText = exports.newPoll = exports.removeOption = exports.addOption = undefined;
+	exports.pollUpdateResponse = exports.changeText = exports.newPoll = exports.removeOption = exports.addOption = undefined;
 	exports.getPolls = getPolls;
 	exports.getOnePoll = getOnePoll;
 	exports.checkLoggedIn = checkLoggedIn;
@@ -40767,7 +40785,7 @@
 		};
 	};
 	
-	var pollUpdateResponse = function pollUpdateResponse(response) {
+	var pollUpdateResponse = exports.pollUpdateResponse = function pollUpdateResponse(response) {
 		return {
 			type: 'POLL_UPDATE_RESPONSE',
 			response: response
@@ -40897,8 +40915,7 @@
 	
 			return fetchPost('/savePoll', { pollLink: pollLink, poll: poll }).then(function (response) {
 				response.json().then(function (res) {
-					console.log(res);
-					dispatch(pollUpdateResponse(res.message));
+					dispatch(pollUpdateResponse(res));
 				});
 			});
 		};
@@ -41460,6 +41477,24 @@
 		}
 	};
 	
+	var pollValidation = function pollValidation(poll) {
+		var invalidObj = {};
+		if (poll.title === '' || typeof poll.title === 'undefined') {
+			invalidObj = { message: 'Poll title required', class: 'alert-danger', title: 'has-error' };
+		}
+		var optDuplicate = poll.options.slice(0).sort().reduce(function (dupFound, item, ind, arr) {
+			if (dupFound) {
+				return true;
+			}
+			return item === arr[ind + 1];
+		}, false);
+		if (optDuplicate) {
+			var message = (invalidObj.message ? invalidObj.message + ' & o' : 'O') + 'ptions must be unique';
+			invalidObj = Object.assign({}, invalidObj, { message: message, class: 'alert-danger', options: 'has-error' });
+		}
+		return invalidObj;
+	};
+	
 	var EditPollContain = function (_Component) {
 		_inherits(EditPollContain, _Component);
 	
@@ -41493,7 +41528,8 @@
 	
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
-			poll: state.selectedPoll
+			poll: state.selectedPoll,
+			displayMessage: state.displayMessage
 		};
 	};
 	
@@ -41506,7 +41542,12 @@
 				dispatch((0, _actions.changeText)(prop, text, index));
 			},
 			onPollSubmit: function onPollSubmit(pollLink, poll) {
-				dispatch((0, _actions.savePoll)(pollLink, poll));
+				var pollInvalid = pollValidation(poll);
+				if (pollInvalid !== {}) {
+					dispatch((0, _actions.pollUpdateResponse)(pollInvalid));
+				} else {
+					dispatch((0, _actions.savePoll)(pollLink, poll));
+				}
 			},
 			onAddOptClick: function onAddOptClick() {
 				dispatch((0, _actions.addOption)());
@@ -41540,8 +41581,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	__webpack_require__(480);
+	
 	var EditPoll = function EditPoll(_ref) {
 		var poll = _ref.poll,
+		    displayMessage = _ref.displayMessage,
 		    update = _ref.update,
 		    onTextChange = _ref.onTextChange,
 		    onPollSubmit = _ref.onPollSubmit,
@@ -41551,7 +41595,10 @@
 	
 		var pollName = poll.title,
 		    headerText = update ? 'Editing this poll' : 'Create new poll',
-		    deleteBtnClass = 'btn btn-default' + (poll.options.length < 3 ? ' disabled' : '');
+		    deleteBtnClass = 'btn btn-default' + (poll.options.length < 3 ? ' disabled' : ''),
+		    messageClass = displayMessage.class + ' alert',
+		    titleClass = displayMessage.title + ' form-group',
+		    optClass = displayMessage.options + ' form-group';
 	
 		return _react2.default.createElement(
 			'main',
@@ -41569,7 +41616,7 @@
 					} },
 				_react2.default.createElement(
 					'div',
-					{ className: 'form-group' },
+					{ className: titleClass },
 					_react2.default.createElement(
 						'label',
 						{ className: 'control-label' },
@@ -41577,7 +41624,7 @@
 					),
 					_react2.default.createElement('input', { type: 'text', className: 'form-control', value: poll.title, onChange: function onChange(e) {
 							return onTextChange('title', e.target.value);
-						}, required: true, disabled: update })
+						}, disabled: update })
 				),
 				_react2.default.createElement(
 					'div',
@@ -41589,11 +41636,11 @@
 					),
 					_react2.default.createElement('input', { type: 'text', className: 'form-control', value: poll.desc, onChange: function onChange(e) {
 							return onTextChange('desc', e.target.value);
-						}, required: true })
+						} })
 				),
 				_react2.default.createElement(
 					'div',
-					{ className: 'form-group' },
+					{ className: optClass },
 					_react2.default.createElement(
 						'label',
 						{ className: 'control-label' },
@@ -41631,6 +41678,15 @@
 						{ type: 'submit', className: 'btn btn-default' },
 						update ? 'Edit Poll' : 'Add Poll'
 					)
+				)
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: messageClass },
+				_react2.default.createElement(
+					'p',
+					null,
+					displayMessage.message
 				)
 			)
 		);
@@ -71509,6 +71565,46 @@
 	thunk.withExtraArgument = createThunkMiddleware;
 	
 	exports['default'] = thunk;
+
+/***/ },
+/* 480 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(481);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(296)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/lib/loader.js!./EditPoll.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/lib/loader.js!./EditPoll.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 481 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(295)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".btn-toolbar .btn {\n  margin-bottom: 5px; }\n", ""]);
+	
+	// exports
+
 
 /***/ }
 /******/ ]);
