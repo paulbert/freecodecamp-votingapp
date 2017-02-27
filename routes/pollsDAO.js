@@ -17,7 +17,8 @@ function pollsDAO (db,testUsers) {
 				return linkString;
 			});
 			db.collection(collection).findOne({link:linkString},function(err,document) {
-				if(document) {
+				// 'new' is used to identify the need to insert a poll
+				if(document || linkString === 'new') {
 					return makeLink(titleArr,attempt + 1);
 				}
 				insert(linkString);
@@ -33,7 +34,7 @@ function pollsDAO (db,testUsers) {
 			makeLink(poll.title.split(' '),1);
 		} else {
 			console.log('Start update...');
-			db.collection(collection).update({link:pollLink},Object.assign({},poll,{userId:user}),callback);
+			db.collection(collection).update({link:pollLink},{$set:{title:poll.title,desc:poll.desc,options:poll.options.slice(0)}},callback);
 		}
 	}
 	

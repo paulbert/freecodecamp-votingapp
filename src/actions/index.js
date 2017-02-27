@@ -7,6 +7,12 @@ export const addOption = () => {
 	}
 };
 
+export const removeOption = () => {
+	return {
+		type: 'REMOVE_OPTION'
+	}
+};
+
 export const newPoll = () => {
 	return {
 		type: 'NEW_POLL'

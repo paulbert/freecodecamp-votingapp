@@ -20,6 +20,10 @@ const selectedPoll = (state = defaultPoll,action) => {
 		// ACTIONS FOR EDITING POLL PAGE
 		case 'ADD_OPTION':
 			return Object.assign({},state,{options:[].concat(state.options,[''])});
+		case 'REMOVE_OPTION':
+			let options = state.options,
+				optionsLength = options.length;
+			return Object.assign({},state,{options:options.slice(0,optionsLength - 1)});
 		case 'NEW_POLL':
 			return defaultPoll;
 		case 'CHANGE_TEXT':

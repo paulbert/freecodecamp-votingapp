@@ -24392,6 +24392,10 @@
 			// ACTIONS FOR EDITING POLL PAGE
 			case 'ADD_OPTION':
 				return Object.assign({}, state, { options: [].concat(state.options, ['']) });
+			case 'REMOVE_OPTION':
+				var options = state.options,
+				    optionsLength = options.length;
+				return Object.assign({}, state, { options: options.slice(0, optionsLength - 1) });
 			case 'NEW_POLL':
 				return defaultPoll;
 			case 'CHANGE_TEXT':
@@ -40716,7 +40720,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.changeText = exports.newPoll = exports.addOption = undefined;
+	exports.changeText = exports.newPoll = exports.removeOption = exports.addOption = undefined;
 	exports.getPolls = getPolls;
 	exports.getOnePoll = getOnePoll;
 	exports.checkLoggedIn = checkLoggedIn;
@@ -40733,6 +40737,12 @@
 	var addOption = exports.addOption = function addOption() {
 		return {
 			type: 'ADD_OPTION'
+		};
+	};
+	
+	var removeOption = exports.removeOption = function removeOption() {
+		return {
+			type: 'REMOVE_OPTION'
 		};
 	};
 	
@@ -41501,6 +41511,11 @@
 			onAddOptClick: function onAddOptClick() {
 				dispatch((0, _actions.addOption)());
 			},
+			onRemoveOptClick: function onRemoveOptClick(optionsLength) {
+				if (optionsLength > 2) {
+					dispatch((0, _actions.removeOption)());
+				}
+			},
 			newPoll: function newPoll() {
 				dispatch((0, _actions.newPoll)());
 			}
@@ -41530,11 +41545,13 @@
 		    update = _ref.update,
 		    onTextChange = _ref.onTextChange,
 		    onPollSubmit = _ref.onPollSubmit,
-		    onAddOptClick = _ref.onAddOptClick;
+		    onAddOptClick = _ref.onAddOptClick,
+		    onRemoveOptClick = _ref.onRemoveOptClick;
 	
 	
 		var pollName = poll.title,
-		    headerText = update ? 'Editing this poll' : 'Create new poll';
+		    headerText = update ? 'Editing this poll' : 'Create new poll',
+		    deleteBtnClass = 'btn btn-default' + (poll.options.length < 3 ? ' disabled' : '');
 	
 		return _react2.default.createElement(
 			'main',
@@ -41583,22 +41600,37 @@
 						'Options:'
 					),
 					poll.options.map(function (val, ind) {
-						return _react2.default.createElement('input', { key: ind, type: 'text', className: 'form-control', value: val, onChange: function onChange(e) {
-								return onTextChange('options', e.target.value, ind);
-							} });
+						return _react2.default.createElement(
+							'p',
+							{ key: ind },
+							_react2.default.createElement('input', { type: 'text', className: 'form-control', value: val, onChange: function onChange(e) {
+									return onTextChange('options', e.target.value, ind);
+								} })
+						);
 					})
 				),
 				_react2.default.createElement(
-					'button',
-					{ type: 'button', className: 'btn btn-default', onClick: function onClick() {
-							return onAddOptClick();
-						} },
-					'Add Option'
-				),
-				_react2.default.createElement(
-					'button',
-					{ type: 'submit', className: 'btn btn-default' },
-					'Add Poll'
+					'div',
+					{ className: 'btn-toolbar' },
+					_react2.default.createElement(
+						'a',
+						{ type: 'button', className: 'btn btn-default', onClick: function onClick() {
+								return onAddOptClick();
+							} },
+						'Add Option'
+					),
+					_react2.default.createElement(
+						'button',
+						{ type: 'button', className: deleteBtnClass, onClick: function onClick() {
+								return onRemoveOptClick(poll.options.length);
+							} },
+						'Remove Option'
+					),
+					_react2.default.createElement(
+						'button',
+						{ type: 'submit', className: 'btn btn-default' },
+						update ? 'Edit Poll' : 'Add Poll'
+					)
 				)
 			)
 		);

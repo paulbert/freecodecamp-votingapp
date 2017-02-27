@@ -1,9 +1,10 @@
 import React from 'react'
 
-const EditPoll = ({poll,update,onTextChange,onPollSubmit,onAddOptClick}) => {
+const EditPoll = ({poll,update,onTextChange,onPollSubmit,onAddOptClick,onRemoveOptClick}) => {
 	
 	let pollName = poll.title,
-		headerText = update ? 'Editing this poll' : 'Create new poll'
+		headerText = update ? 'Editing this poll' : 'Create new poll',
+		deleteBtnClass = 'btn btn-default' + (poll.options.length < 3 ? ' disabled' : '');
 	
 	return (
 	
@@ -25,12 +26,17 @@ const EditPoll = ({poll,update,onTextChange,onPollSubmit,onAddOptClick}) => {
 				<label className="control-label">Options:</label>
 				{
 					poll.options.map((val,ind) => (
-						<input key={ind} type="text" className="form-control" value={val} onChange={(e) => onTextChange('options',e.target.value,ind)} />
+						<p key={ind}>
+							<input type="text" className="form-control" value={val} onChange={(e) => onTextChange('options',e.target.value,ind)} />
+						</p>
 					))
 				}
 			</div>
-			<button type="button" className="btn btn-default" onClick={() => onAddOptClick()}>Add Option</button>
-			<button type="submit" className="btn btn-default">Add Poll</button>
+			<div className="btn-toolbar">
+				<a type="button" className="btn btn-default" onClick={() => onAddOptClick()}>Add Option</a>
+				<button type="button" className={deleteBtnClass} onClick={() => onRemoveOptClick(poll.options.length)}>Remove Option</button>
+				<button type="submit" className="btn btn-default">{update ? 'Edit Poll' : 'Add Poll'}</button>
+			</div>
 		</form>
 	</main>
 

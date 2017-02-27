@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import EditPoll from '../components/EditPoll'
-import { savePoll, changeText, addOption, newPoll, getOnePoll } from '../actions'
+import { savePoll, changeText, addOption, removeOption, newPoll, getOnePoll } from '../actions'
 
 let update = false;
 
@@ -53,6 +53,11 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		onAddOptClick: () => {
 			dispatch(addOption());
+		},
+		onRemoveOptClick: (optionsLength) => {
+			if(optionsLength > 2) {
+				dispatch(removeOption());
+			}
 		},
 		newPoll: () => {
 			dispatch(newPoll());
