@@ -1,6 +1,9 @@
 {
   "name": "freecodecamp-votingapp",
   "version": "1.0.0",
+  "engines":{
+    "npm": "4.2.0"
+  },
   "description": "",
   "main": "app.js",
   "scripts": {
