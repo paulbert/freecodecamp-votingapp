@@ -41543,7 +41543,7 @@
 			},
 			onPollSubmit: function onPollSubmit(pollLink, poll) {
 				var pollInvalid = pollValidation(poll);
-				if (pollInvalid !== {}) {
+				if (pollInvalid.message) {
 					dispatch((0, _actions.pollUpdateResponse)(pollInvalid));
 				} else {
 					dispatch((0, _actions.savePoll)(pollLink, poll));
@@ -41720,6 +41720,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -41743,11 +41745,7 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var _props = this.props,
-				    poll = _props.poll,
-				    onVoteClick = _props.onVoteClick;
-	
-				return _react2.default.createElement(_PollDetail2.default, { poll: poll, onVoteClick: onVoteClick });
+				return _react2.default.createElement(_PollDetail2.default, this.props);
 			}
 		}]);
 	
@@ -41756,7 +41754,8 @@
 	
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
-			poll: state.selectedPoll
+			poll: state.selectedPoll,
+			userLoggedIn: typeof state.user.empty === 'undefined'
 		};
 	};
 	
@@ -41767,6 +41766,16 @@
 			},
 			onVoteClick: function onVoteClick(pollLink, voteString) {
 				dispatch((0, _actions.vote)(pollLink, voteString));
+			},
+			onWriteInSubmit: function onWriteInSubmit(pollLink, poll) {
+				var writeIn = poll.writeIn,
+				    newPoll = _objectWithoutProperties(poll, ['writeIn']),
+				    newOptions = [].concat(poll.options, [writeIn]);
+	
+				dispatch((0, _actions.savePoll)(pollLink, Object.assign({}, newPoll, { options: newOptions }))).then(dispatch((0, _actions.vote)(pollLink, writeIn)));
+			},
+			onTextChange: function onTextChange(prop, text, index) {
+				dispatch((0, _actions.changeText)(prop, text, index));
 			}
 		};
 	};
@@ -41795,9 +41804,14 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	__webpack_require__(482);
+	
 	var PollBody = function PollBody(_ref) {
 		var poll = _ref.poll,
-		    onVoteClick = _ref.onVoteClick;
+		    userLoggedIn = _ref.userLoggedIn,
+		    onVoteClick = _ref.onVoteClick,
+		    onWriteInSubmit = _ref.onWriteInSubmit,
+		    onTextChange = _ref.onTextChange;
 	
 	
 		var dataAndOptions = (0, _createChartData2.default)(poll);
@@ -41836,6 +41850,25 @@
 						opt
 					);
 				})
+			),
+			_react2.default.createElement(
+				'form',
+				{ onSubmit: function onSubmit(e) {
+						e.preventDefault();
+						return onWriteInSubmit(poll.link, poll);
+					}, className: 'form-inline' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'form-group' },
+					_react2.default.createElement('input', { type: 'text', className: 'form-control', value: poll.writeIn || '', onChange: function onChange(e) {
+							return onTextChange('writeIn', e.target.value);
+						} })
+				),
+				_react2.default.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Write in vote'
+				)
 			),
 			_react2.default.createElement(_reactChartjs.Bar, dataAndOptions)
 		);
@@ -71611,6 +71644,46 @@
 	
 	// module
 	exports.push([module.id, ".btn-toolbar .btn {\n  margin-bottom: 5px; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 482 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(483);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(296)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/lib/loader.js!./PollDetail.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/lib/loader.js!./PollDetail.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 483 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(295)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".btn-group-vertical {\n  margin-bottom: 5px;\n  min-width: 10%; }\n\n.form-group * {\n  margin-right: 3px; }\n", ""]);
 	
 	// exports
 

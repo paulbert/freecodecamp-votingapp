@@ -2,7 +2,9 @@ import React from 'react'
 import createChartData from '../logic/createChartData.js'
 import {Bar} from 'react-chartjs-2'
 
-const PollBody = ({poll,onVoteClick}) => {
+require('../css/PollDetail.scss');
+
+const PollBody = ({poll,userLoggedIn,onVoteClick,onWriteInSubmit,onTextChange}) => {
 	
 	let dataAndOptions = createChartData(poll);
 	
@@ -18,6 +20,15 @@ const PollBody = ({poll,onVoteClick}) => {
 			))
 		}
 		</div>
+		<form onSubmit={(e) => { 
+			e.preventDefault();
+			return onWriteInSubmit(poll.link, poll);
+		}} className="form-inline">
+			<div className="form-group">
+				<input type="text" className="form-control" value={poll.writeIn || ''} onChange={(e) => onTextChange('writeIn',e.target.value)} />
+			</div>
+			<button type="submit" className="btn btn-default">Write in vote</button>
+		</form>
 		<Bar {...dataAndOptions} />
 	</section>
 

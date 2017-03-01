@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PollDetail from '../components/PollDetail'
-import { vote,getOnePoll } from '../actions'
+import { vote,getOnePoll,savePoll,changeText } from '../actions'
 
 class PollDetailContain extends Component {
 	
@@ -10,15 +10,15 @@ class PollDetailContain extends Component {
 	}
 	
 	render() {
-		const { poll, onVoteClick } = this.props;
-		return <PollDetail poll={poll} onVoteClick={onVoteClick}></PollDetail>
+		return <PollDetail {...this.props}></PollDetail>
 	}
 	
 }
 
 const mapStateToProps = (state) => {
 	return {
-		poll:state.selectedPoll
+		poll:state.selectedPoll,
+		userLoggedIn:typeof state.user.empty === 'undefined'
 	}
 };
 
@@ -29,6 +29,15 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		onVoteClick: (pollLink,voteString) => {
 			dispatch(vote(pollLink,voteString));
+		},
+		onWriteInSubmit: (pollLink, poll) => {
+			let {writeIn,...newPoll} = poll,
+				newOptions = [].concat(poll.options,[writeIn]);
+			dispatch(savePoll(pollLink,Object.assign({},newPoll,{options:newOptions}))).then(dispatch(vote(pollLink,writeIn)));
+			
+		},
+		onTextChange: (prop,text,index) => {
+			dispatch(changeText(prop,text,index));
 		}
 	}
 };

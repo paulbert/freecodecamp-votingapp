@@ -69,7 +69,7 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		onPollSubmit: (pollLink,poll) => {
 			let pollInvalid = pollValidation(poll);
-			if(pollInvalid !== {}) {
+			if(pollInvalid.message) {
 				dispatch(pollUpdateResponse(pollInvalid));
 			} else {
 				dispatch(savePoll(pollLink,poll));
