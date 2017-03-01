@@ -1,7 +1,5 @@
 
-var webpack = require('webpack'),
-	webpackCfg = require('./webpack.config.js'),
-	express = require('express'),
+var express = require('express'),
 	bodyParser = require('body-parser'),
 	cookieParser = require('cookie-parser'),
 	expressSession = require('express-session'),
@@ -9,17 +7,21 @@ var webpack = require('webpack'),
 	passport = require('passport'),
 	passportCfg = require('./passport.config.js'),
 	app = express(),
-	MongoClient = require('mongodb'),
-	compiler = webpack(webpackCfg.config);
+	MongoClient = require('mongodb');
+	
 
 var db_name = 'votingApp';
 
 var mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + db_name;
 
+// Production deployment on Heroku will have MongoDB environment variable
 if(process.env.MONGODB_URI){
-  mongodb_connection_string = process.env.MONGODB_URI;
+	mongodb_connection_string = process.env.MONGODB_URI;
 } else {
 	require('dotenv').config();
+	var webpack = require('webpack'),
+		webpackCfg = require('./webpack.config.js'),
+		compiler = webpack(webpackCfg.config);
 }
 
 var routes = require('./routes/index.js'),
@@ -54,8 +56,10 @@ MongoClient.connect(mongodb_connection_string,function(err,db) {
 		app.use(expressSession({ secret: process.env.EXPRESS_SECRET, resave:true, saveUninitialized:true }));
 		app.use(passport.initialize());
 		app.use(passport.session());
-
-		compiler.watch(webpackCfg.watchOptions,webpackCfg.watchHandler);
+		
+		if(compiler) {
+			compiler.watch(webpackCfg.watchOptions,webpackCfg.watchHandler);
+		}
 	
 		routes(app,db,passport);
 
